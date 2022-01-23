@@ -19,6 +19,39 @@
         "DASHBOARD3": "Dashboard 3"
       }
     },
+    "CONTRACTS":{
+      "TEXT":"Contracts",
+      "LIST":{
+        "CONTRACT":"Contract"
+      }
+    },
+    "EMPLOYEES":{
+      "TEXT":"Employees",
+      "LIST":{
+        "EMPLOYEE":"Employee",
+        "ORGANIZATION":"Organization"
+      }
+    },
+    "REQUESTS":{
+      "TEXT":"Requests",
+      "LIST":{
+        "REQUEST":"Requests"
+      }
+    },
+    "SHEETS":{
+      "TEXT":"Sheets",
+      "LIST":{
+        "SPREADSHEET":"Spread Sheet",
+        "TICKET":"Ticket"
+
+      }
+    },
+    "USERS":{
+      "TEXT":"Users",
+      "LIST":{
+        "USER":"User"
+      }
+    },
     "ADVANCE-TABLE": {
       "TEXT": "Advance Table"
     },

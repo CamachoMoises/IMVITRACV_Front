@@ -19,6 +19,45 @@
         "DASHBOARD3": "Tablero 3"
       }
     },
+
+    "MEMBERS":{
+      "TEXT":"Mienbros",
+      "LIST":{
+        "CONTRACT":"Mienbros"
+      }
+    },
+    "CONTRACTS":{
+      "TEXT":"Contratos",
+      "LIST":{
+        "CONTRACT":"Contrato"
+      }
+    },
+    "EMPLOYEES":{
+      "TEXT":"Empleados",
+      "LIST":{
+        "EMPLOYEE":"Empleados",
+        "ORGANIZATION":"Organizacion"
+      }
+    },
+    "REQUESTS":{
+      "TEXT":"Solicitudes",
+      "LIST":{
+        "REQUEST":"Solicitud"
+      }
+    },
+    "SHEETS":{
+      "TEXT":"Planillas",
+      "LIST":{
+        "SPREADSHEET":"Planilla",
+        "TICKET":"Boletas"
+      }
+    },
+    "USERS":{
+      "TEXT":"Usuarios",
+      "LIST":{
+        "USER":"Usuario"
+      }
+    },
     "ADVANCE-TABLE": {
       "TEXT": "Tabla de avance"
     },

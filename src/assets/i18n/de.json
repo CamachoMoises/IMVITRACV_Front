@@ -19,6 +19,38 @@
         "DASHBOARD3": "Dashboard 3"
       }
     },
+    "CONTRACTS":{
+      "TEXT":"Verträge ",
+      "LIST":{
+        "CONTRACT":"Vertrag"
+      }
+    },
+    "EMPLOYEES":{
+      "TEXT":"Angestellte",
+      "LIST":{
+        "EMPLOYEE":"Mitarbeiter",
+        "ORGANIZATION":"Organisation "
+      }
+    },
+    "REQUESTS":{
+      "TEXT":"Anfragen",
+      "LIST":{
+        "REQUEST":"Anfrage"
+      }
+    },
+    "SHEETS":{
+      "TEXT":"BLÄTTER",
+      "LIST":{
+        "SPREADSHEET":"Kalkulationstabelle",
+        "TICKET":"Fahrkarte"
+      }
+    },
+    "USERS":{
+      "TEXT":"Benutzer",
+      "LIST":{
+        "USER":"Nutzer"
+      }
+    },
     "ADVANCE-TABLE": {
       "TEXT": "Vorab-Tabelle"
     },
