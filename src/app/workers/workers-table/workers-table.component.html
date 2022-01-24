@@ -1,4 +1,283 @@
-Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est odio, amet voluptas reprehenderit ab cumque itaque nostrum unde veniam suscipit repudiandae cum doloribus vero ipsum eos laudantium sed autem libero sint laboriosam ex at id? Commodi quam voluptate laboriosam obcaecati, vel repellendus perferendis consequatur id unde numquam laborum quod ex aliquam nobis dolore porro necessitatibus nihil maxime ratione corrupti quas sit delectus. Rerum cum ratione, facere doloremque adipisci tempore perferendis dicta voluptatum fugiat! Eligendi laboriosam saepe animi vel, illo quasi ea facilis alias eaque nihil repudiandae iusto suscipit ad provident ipsa minima laborum non veritatis quae omnis tempore autem incidunt impedit necessitatibus. Velit vitae, natus nisi officia accusantium id esse dolor adipisci ipsam molestiae commodi dolores voluptas! Explicabo accusantium maxime ex nulla mollitia ipsum a perferendis aliquid, nemo animi quam minima expedita soluta culpa suscipit vitae saepe consequatur provident! Magnam, beatae est? Aliquid nulla qui cum animi nisi, accusantium totam saepe necessitatibus sed excepturi deserunt, veritatis eos enim maiores, eius numquam aperiam commodi non voluptates dolor iure? Deleniti accusantium soluta animi voluptates architecto praesentium cumque exercitationem dignissimos quas consectetur, accusamus quia dolorem et atque, ratione nulla quisquam consequatur fuga temporibus. Iure consequuntur suscipit sed, quod nemo nesciunt id expedita quas eligendi amet esse sunt quidem ratione hic voluptate, voluptates tempora earum magnam ipsum iusto incidunt repudiandae. Porro inventore asperiores consequuntur. Eos eaque voluptatum itaque a sapiente ullam repellat omnis suscipit? Earum consequatur praesentium, sapiente expedita ad et dolore eum officia laudantium. Architecto omnis alias quam voluptatum accusantium impedit suscipit unde adipisci a tempora quia hic, est repellendus sapiente explicabo neque necessitatibus voluptatibus! Assumenda eligendi quae aspernatur explicabo pariatur facilis alias porro. Repudiandae blanditiis a obcaecati eligendi doloremque alias aspernatur rerum distinctio, dolores nihil laboriosam expedita omnis autem et at eveniet voluptate ratione molestiae, architecto laborum maiores quisquam? Vitae, consequuntur veritatis?
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="body">
+            <h1>
+              <strong> Miembros </strong>
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tabbable-line">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="card">
+                <div class="body">
+                  <div class="table-responsive">
+                    <div class="materialTableHeader">
+                      <div class="row">
+                        <div class="col-8">
+                          <ul class="header-buttons-left ml-0">
+                            <li class="dropdown">
+                              <h2>
+                                <strong>Miembros</strong>
+                              </h2>
+                            </li>
+                            <li class="dropdown m-l-20">
+                              <label for="search-input"
+                                ><i class="material-icons search-icon"
+                                  >search</i
+                                ></label
+                              >
+                              <input
+                                placeholder="Buscar en Miembros "
+                                type="text"
+                                #filter
+                                class="browser-default search-field"
+                                aria-label="Search box"
+                              />
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="col-4">
+                          <ul class="header-buttons">
+                            <li>
+                              <div class="icon-button-demo">
+                                <button
+                                  mat-mini-fab
+                                  color="primary"
+                                  (click)="seeReport()"
+                                >
+                                  <!-- *ngIf="onCheckDeteails('see', 2)" -->
+                                  <mat-icon class="col-white"
+                                    >insert_drive_file</mat-icon
+                                  >
+                                </button>
+                              </div>
+                            </li>
 
+                            <li>
+                              <div class="icon-button-demo">
+                                <button
+                                  mat-mini-fab
+                                  color="primary"
+                                  (click)="addNew()"
+                                >
+                                  <mat-icon class="col-white">add</mat-icon>
+                                </button>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="icon-button">
+                                <button
+                                  mat-mini-fab
+                                  color="primary"
+                                  (click)="refresh()"
+                                >
+                                  <mat-icon class="col-white"
+                                    >refresh
+                                  </mat-icon>
+                                </button>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
 
-<p>workers-table works!</p>
+                    <mat-table
+                      #table
+                      [dataSource]="dataSource"
+                      matSort
+                      class="mat-cell"
+                    >
+                      <!-- ID Column -->
+                      <ng-container matColumnDef="idWorker">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          >Id
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{ row.idWorker }}</mat-cell>
+                      </ng-container>
+
+                      <!-- firstName Column -->
+                      <ng-container matColumnDef="firstName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          >Primer Nombre
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{ row.firstName }}
+                        </mat-cell>
+                      </ng-container>
+
+                      <!-- secondName Column -->
+                      <ng-container matColumnDef="secondName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          >Segundo Nombre
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{ row.secondName }}
+                        </mat-cell>
+                      </ng-container>
+
+                      <!-- firstLastname Column -->
+                      <ng-container matColumnDef="firstLastname">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          >Primer Apellido
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{ row.firstLastname }}
+                        </mat-cell>
+                      </ng-container>
+
+                      <!-- secondLastname Column -->
+                      <ng-container matColumnDef="secondLastname">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          >Segundo Apellido
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{ row.secondLastname }}</mat-cell
+                        >
+                      </ng-container>
+
+                      <!-- DNI Column -->
+                      <ng-container matColumnDef="DNI">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          >Cedula
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{ row.DNI  }}</mat-cell
+                        >
+                      </ng-container>
+
+                      <!-- phone Column -->
+                      <ng-container matColumnDef="phone">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          >Telefono
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{ row.phone }}
+                        </mat-cell>
+                      </ng-container>
+
+                      <!-- membership Column -->
+                      <ng-container matColumnDef="membership">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          >Numero de socio
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{ row.membership }}
+                        </mat-cell>
+                      </ng-container>
+
+                       <!-- status Column -->
+                       <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          >Estatus
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{ row.status }}
+                        </mat-cell>
+                      </ng-container>
+
+                      <!-- actions -->
+                      <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef class="pr-0"
+                          >Acciones</mat-header-cell
+                        >
+                        <mat-cell
+                          *matCellDef="let row; let i = index"
+                          class="pr-0"
+                        >
+                        <!-- *ngIf="onCheckDeteails('see', 2)" -->
+                          <button
+                            mat-icon-button
+                            color="accent"
+                            class="btn-tbl-confirm"
+                            (click)="$event.stopPropagation()"
+                            [disabled]="!row.doc"
+                            (click)="downloadFile(row, i)"
+                          >
+                            <mat-icon aria-label="Delete" class="col-white"
+                              >insert_drive_file
+                            </mat-icon>
+                          </button>
+                          <!-- *ngIf="onCheckDeteails('edit', 2)" -->
+                          <button
+                            mat-icon-button
+                            color="accent"
+                            class="btn-tbl-edit"
+                            (click)="$event.stopPropagation()"
+                            (click)="editCall(row)"
+                          >
+                            <mat-icon aria-label="Delete" class="col-white"
+                              >create
+                            </mat-icon>
+                          </button>
+                          <!-- *ngIf="onCheckDeteails('delete', 2)" -->
+                          <button
+                            mat-icon-button
+                            color="accent"
+                            class="btn-tbl-delete"
+                            (click)="$event.stopPropagation()"
+                            (click)="deleteItem(row)"
+                          >
+                            <mat-icon aria-label="Delete" class="col-white"
+                              >delete
+                            </mat-icon>
+                          </button>
+                        </mat-cell>
+                      </ng-container>
+
+                      <mat-header-row *matHeaderRowDef="displayedColumns">
+                      </mat-header-row>
+                      <mat-row
+                        *matRowDef="let row; columns: displayedColumns"
+                        [style.cursor]="'pointer'"
+                        matRipple
+                      >
+                      </mat-row>
+                    </mat-table>
+                    <!-- Loading spinner -->
+                    <div
+                      *ngIf="WorkerDatabase.isTblLoading"
+                      class="tbl-spinner"
+                    >
+                      <mat-progress-spinner
+                        color="primary"
+                        [diameter]="40"
+                        mode="indeterminate"
+                      >
+                      </mat-progress-spinner>
+                    </div>
+                    <div
+                      *ngIf="!WorkerDatabase.isTblLoading"
+                      class="no-results"
+                      [style.display]="
+                        dataSource.renderedData.length == 0 ? '' : 'none'
+                      "
+                    >
+                      No results
+                    </div>
+                    <mat-paginator
+                      #paginator
+                      [length]="dataSource.filteredData.length"
+                      [pageIndex]="0"
+                      [pageSize]="10"
+                      [pageSizeOptions]="[5, 10, 25, 100]"
+                    >
+                    </mat-paginator>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

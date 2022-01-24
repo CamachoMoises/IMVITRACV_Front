@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { WorkersRoutingModule } from './workers-routing.module';
-import { WorkersComponent } from './workers.component';
 import { WorkersTableComponent } from './workers-table/workers-table.component';
+//import { FormComponent as RequestForm } from './form/form.component';
+import { DeleteComponent } from './delete/delete.component';
 
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -23,12 +24,13 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSortModule } from '@angular/material/sort';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
+import { WorkerService } from '../core/service/worker.service';
 
 
 @NgModule({
   declarations: [
-    WorkersComponent,
-    WorkersTableComponent
+    WorkersTableComponent,
+    DeleteComponent,
   ],
   imports: [
     CommonModule,
@@ -52,6 +54,9 @@ import { MatMenuModule } from '@angular/material/menu';
     MatToolbarModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+  ],
+  providers: [
+    WorkerService,
   ]
 })
 export class WorkersModule { }

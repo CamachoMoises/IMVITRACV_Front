@@ -1,0 +1,313 @@
+<div class="addContainer">
+  <div *ngIf="!isDetails" class="contact-form">
+    <div class="modalHeader">
+      <div class="editRowModal">
+        <div class="modalHeader clearfix">
+          <!-- <img [src]='contacts.img' alt="avatar"> -->
+          <div class="modal-about">
+            <div class="font-weight-bold p-t-5 font-17">
+              {{ dialogTitle }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        mat-icon-button
+        (click)="dialogRef.close()"
+        aria-label="Close dialog"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+      <form
+        class="register-form m-4"
+        [formGroup]="contractForm"
+        (ngSubmit)="(submit)"
+      >
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Tipo de Contrato </mat-label>
+              <mat-select
+                formControlName="idContractType"
+                placeholder="Tipo de Contrato"
+                select
+              >
+                <mat-optgroup>
+                  <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11">
+                    <input
+                      matInput
+                      formControlName="searchTxt2"
+                      autocomplete="off"
+                      placeholder="Buscar"
+                    />
+                    <mat-icon
+                      (click)="contractForm.controls['searchTxt2'].setValue('')"
+                      >close</mat-icon
+                    >
+                  </div>
+                </mat-optgroup>
+                <mat-option
+                  *ngFor="
+                    let type of contractsType
+                      | contracts: contractForm.controls['searchTxt2'].value
+                  "
+                  [value]="type.idTipoContrato"
+                >
+                  <mat-label> {{ type.Descripcion }} </mat-label>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Importe</mat-label>
+              <input matInput formControlName="amount" required />
+              <mat-error
+                *ngIf="
+                  contractForm.get('amount').hasError('required') ||
+                  contractForm.get('amount').hasError('pattern')
+                "
+              >
+                El importe es requerido y con valor numerico
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Tipo de moneda </mat-label>
+              <mat-select
+                formControlName="idCurrency"
+                placeholder="Tipo de moneda"
+                select
+              >
+                <mat-option
+                  *ngFor="let currency of currencies"
+                  [value]="currency.idMoneda"
+                >
+                  <mat-label> {{ currency.Descripcion }} </mat-label>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Fecha de inicio</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="dateInit"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error
+                *ngIf="contractForm.get('dateInit').hasError('required')"
+              >
+                Pro favor selecciona una fecha
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Fecha de fin</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker2"
+                formControlName="dateEnd"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker2"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+              <mat-error
+                *ngIf="contractForm.get('dateEnd').hasError('required')"
+              >
+                Por favor selecciona una fecha
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row" *ngIf="loaded">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Empleado</mat-label>
+              <mat-select
+                formControlName="idEmployee"
+                placeholder="empleados"
+                select
+              >
+                <mat-optgroup>
+                  <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11">
+                    <input
+                      matInput
+                      formControlName="searchTxt"
+                      autocomplete="off"
+                      placeholder="Buscar"
+                    />
+                    <mat-icon
+                      (click)="contractForm.controls['searchTxt'].setValue('')"
+                      >close</mat-icon
+                    >
+                  </div>
+                </mat-optgroup>
+                <mat-option
+                  *ngFor="
+                    let employee of employees
+                      | searchEmployee: contractForm.controls['searchTxt'].value
+                  "
+                  [value]="employee.idEmpleado"
+                >
+                  <mat-label>
+                    {{ employee.PrimerNombre + " " + employee.PrimerApellido }}
+                  </mat-label>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <form class="register-form" [formGroup]="fileForm">
+          <div class="row" *ngIf="!changedFile">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+              <div class="row">
+                <mat-form-field>
+                  <ngx-mat-file-input
+                    formControlName="myFile"
+                    [multiple]="false"
+                    [accept]="'.pdf'"
+                    [color]="'primary'"
+                    placeholder="PDF"
+                  >
+                  </ngx-mat-file-input>
+                  <mat-error *ngIf="fileForm.get('myFile').hasError('maxSize')">
+                    El archivo muy grande
+                  </mat-error>
+                  <mat-hint align="start"
+                    ><strong>Tamaño Maximo del archivo {{ MaxSize }}MB</strong>
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+            </div>
+            <div
+              *ngIf="action === 'edit'"
+              class="col-xl-2 col-lg-2 col-md-2 col-sm-2"
+            >
+              <button
+                mat-raised-button
+                color="primary"
+                [type]="submit"
+                [disabled]="!fileForm.valid"
+                (click)="addFile()"
+              >
+                Actualizar archivo
+              </button>
+            </div>
+          </div>
+        </form>
+        <br />
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <div class="example-button-row">
+              <button
+                [disabled]="!contractForm.valid"
+                mat-raised-button
+                color="primary"
+                [type]="submit"
+                [mat-dialog-close]
+                (click)="confirmAdd($event)"
+              >
+                {{ action === "edit" ? "Modificar" : "Guardar" }}
+              </button>
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="onNoClick()"
+                tabindex="-1"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- <div *ngIf="isDetails" class="contact-details">
+    <div class="modalHeader">
+      <div class="editRowModal">
+        <div class="modalHeader clearfix">
+          <div class="modal-about contact-header">
+            <div class="contact-details-img">
+              <img [src]='contacts.img' alt="avatar">
+            </div>
+            <div class="contact-details-heading">
+              <div class="contact-details-name mb-2">{{contacts.name}}</div>
+              <div class="badge col-green">Friends</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+      <mat-card-content>
+        <div class="contact-details-field">
+          <i class="material-icons-two-tone color-icon">email</i>
+          <div class="contact-detail-info"> {{contacts.email}}
+          </div>
+        </div>
+        <div class="contact-details-field">
+          <i class="material-icons-two-tone color-icon">phonelink_ring</i>
+          <div class="contact-detail-info"> {{contacts.mobile}}
+          </div>
+        </div>
+        <div class="contact-details-field">
+          <i class="material-icons-two-tone color-icon">cake</i>
+          <div class="contact-detail-info"> {{contacts.birthDate | date: 'MMMM d, yyyy'}}
+          </div>
+        </div>
+        <div class="contact-details-field">
+          <i class="material-icons-two-tone color-icon">location_on</i>
+          <div class="contact-detail-info"> {{contacts.address}}
+          </div>
+        </div>
+        <div class="contact-details-field">
+          <i class="material-icons-two-tone color-icon">note</i>
+          <div class="contact-detail-info"> {{contacts.note}}
+          </div>
+        </div>
+      </mat-card-content>
+    </div>
+    <p>
+
+    </p>
+  </div> -->
+</div>
