@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { WorkersRoutingModule } from './workers-routing.module';
 import { WorkersTableComponent } from './workers-table/workers-table.component';
-//import { FormComponent as RequestForm } from './form/form.component';
+import { FormComponent as RequestForm } from './form/form.component';
 import { DeleteComponent } from './delete/delete.component';
 
 import { MatTableModule } from '@angular/material/table';
@@ -31,6 +31,7 @@ import { WorkerService } from '../core/service/worker.service';
   declarations: [
     WorkersTableComponent,
     DeleteComponent,
+    RequestForm
   ],
   imports: [
     CommonModule,

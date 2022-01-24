@@ -1,4 +1,4 @@
-import { Contract } from './../../core/models/contracts.model';
+import { Worker } from './../../core/models/worker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import {
@@ -8,8 +8,8 @@ import {
   FormBuilder
 } from '@angular/forms';
 
-import { formatDate, DatePipe } from '@angular/common';
-import { ContractsService } from 'src/app/core/service/contracts.service';
+import { formatDate } from '@angular/common';
+import { WorkerService } from 'src/app/core/service/worker.service';
 import { DateAdapter } from '@angular/material/core';
 import { AcceptValidator, MaxSizeValidator } from '@angular-material-components/file-input';
 import { dateValidator } from 'src/app/core/validators/twoDays.validator'
@@ -27,10 +27,10 @@ export class FormComponent implements OnInit {
   action: string;
   dialogTitle: string;
   isDetails = false;
-  contractForm: FormGroup;
+  workerForm: FormGroup;
   fileForm: FormGroup;
-  contract: Contract;
-  contractsType;
+  worker: Worker;
+  workersType;
   currencies;
   employees;
   loaded = false;
@@ -39,9 +39,8 @@ export class FormComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<FormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private contractsService: ContractsService,
+    private workerService: WorkerService,
     private fb: FormBuilder,
-    private datePipe: DatePipe,
     private dateAdapter: DateAdapter<Date>
   ) {
     // Set the defaults
@@ -50,30 +49,20 @@ export class FormComponent implements OnInit {
 
     if (this.action === 'edit') {
       this.isDetails = false;
-      this.dialogTitle = `Contrato de ${data.contract.firstName} ${data.contract.firstLastName}`;
-      this.contract = data.contract;
+      this.dialogTitle = `Contrato de ${data.worker.firstName} ${data.worker.firstLastName}`;
+      this.worker = data.worker;
     } else if (this.action === 'details') {
-      this.contract = data.contract;
-      this.contract.dateInit =formatDate(this.contract.dateInit, 'yyyy-MM-dd', 'en');
-      this.contract.dateEnd  =formatDate(this.contract.dateEnd, 'yyyy-MM-dd', 'en'),
+      this.worker = data.worker;
+
       this.isDetails = true;
     } else {
       this.isDetails = false;
-      this.dialogTitle = 'Nuevo Contrato';
-      this.contract = new Contract({});
-      this.contract.dateInit=null;
-      this.contract.dateEnd=null;
-    }
-    this.contractForm = this.createContractForm();
-    this.fileForm = this.createFileForm();
+      this.dialogTitle = 'Nuevo Miembro';
+      this.worker = new Worker();
 
-    this.contractsService.ContractsDataForm().then((response: any) => {
-      console.log('Form Data', response);
-      this.employees = response.employees;
-      this.contractsType = response.contractsType
-      this.currencies= response.currencies;
-      this.loaded = true;
-    })
+    }
+    this.workerForm = this.createWorkerForm();
+    this.fileForm = this.createFileForm();
   }
   formControl = new FormControl('', [
     Validators.required
@@ -87,25 +76,34 @@ export class FormComponent implements OnInit {
   ngOnInit():void {
 
   }
-  createContractForm(): FormGroup {
+  createWorkerForm(): FormGroup {
     return this.fb.group({
-      id: [this.contract.id],
-      idContractType: [this.contract.idContractType, Validators.required],
-      amount: [this.contract.amount, [Validators.required , Validators.pattern('^[.,0-9]{2,20}') ]],
-      idCurrency:[this. contract.idCurrency, Validators.required],
-      dateInit: [this.contract.dateInit,[Validators.required]],
-      dateEnd: [this.contract.dateEnd, [Validators.required]],
-      idEmployee: [this.contract.idEmployee, Validators.required],
-      searchTxt: [''],
-      searchTxt2:[''],
-      userLogged:[this.userLogged]
-    },{validator:dateValidator}
+      idWorker: [this.worker.idWorker],
+      workerType:[this.worker.workerType],
+      firstName:[ this.worker.firstName, [Validators.required]],
+      secondName:[ this.worker.secondName],
+      firstLastname:[ this.worker.firstLastname, [Validators.required]],
+      secondLastname:[ this.worker.secondLastname],
+      DNI:[ this.worker.DNI, [Validators.required]],
+      type:[ this.worker.type, [Validators.required]],
+      address:[ this.worker.address],
+      phone:[ this.worker.phone, [Validators.required]],
+      email:[ this.worker.email,[Validators.email]],
+      medical:[ this.worker.medical, [Validators.required]],
+      license:[ this.worker.license, [Validators.required]],
+      organization:[ this.worker.organization, [Validators.required]],
+      membership:[ this.worker.membership, [Validators.required]],
+      route:[ this.worker.route, [Validators.required]],
+      status:[ this.worker.status],
+      absences:[ this.worker.absences],
+      observations:[ this.worker.observations]
+    },
     );
   }
   createFileForm(): FormGroup {
     return this.fb.group({
       myFile: [null, [Validators.required, MaxSizeValidator(this.MaxSize*1024*1024) ]],
-      id: [this.contract.id, [Validators.required]]
+      id: [this.worker.idWorker, [Validators.required]]
     })
   }
   submit() {
@@ -116,38 +114,34 @@ export class FormComponent implements OnInit {
   }
   public confirmAdd(e: Event): void {
     e.stopPropagation();
-    const myDateStart = new Date(this.contractForm['controls'].dateInit.value);
-    const myDateEnd = new Date(this.contractForm['controls'].dateEnd.value);
-    const formatStartDate = this.datePipe.transform(myDateStart, "yyyy-MM-dd");
-    const formatEndsDate = this.datePipe.transform(myDateEnd, "yyyy-MM-dd");
-    this.contractForm.controls['dateInit'].setValue(formatStartDate);
-    this.contractForm.controls['dateEnd'].setValue(formatEndsDate);
+    console.log('Form', this.workerForm.getRawValue());
+
 
     if (this.data.action === 'edit') {
-      console.log('Edit Contract');
-      this.contractsService.updateContract(this.contractForm.getRawValue())
+      console.log('Edit Worker');
+      this.workerService.updateWorker(this.workerForm.getRawValue())
       this.onNoClick(1);
     } else {
-      console.log('Create Contract');
-      this.contractsService.addContract(this.contractForm.getRawValue()).then((value) => {
+      console.log('Create Worker');
+      this.workerService.addWorker(this.workerForm.getRawValue()).then((value) => {
         this.id = value
         console.log('ID in confirm', this.id);
         if (this.id > 0) {
           console.log('results if form back', this.id);
           this.fileForm.controls['id'].setValue(this.id);
-          this.addFile();
+          //this.addFile();
         }
-        this.onNoClick(this.id)
+        this.onNoClick(this.id);
       });
     }
   }
   clearSearch():void{
-    this.contractForm.controls['searchTxt'].setValue('')
+    this.workerForm.controls['searchTxt'].setValue('')
   }
   addFile(): void {
     if (this.fileForm.valid) {
       console.log(this.fileForm.getRawValue());
-      const result = this.contractsService.addFile(this.fileForm.getRawValue())
+      const result = this.workerService.addFile(this.fileForm.getRawValue())
       this.changedFile = true;
       console.log('result', result);
       if (result === 'successful') {

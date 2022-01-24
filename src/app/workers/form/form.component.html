@@ -22,177 +22,316 @@
     <div mat-dialog-content>
       <form
         class="register-form m-4"
-        [formGroup]="contractForm"
+        [formGroup]="workerForm"
         (ngSubmit)="(submit)"
       >
+        <div class="row">
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Primer Nombre</mat-label>
+              <input matInput formControlName="firstName" required />
+              <mat-error
+                *ngIf="workerForm.get('firstName').hasError('required')"
+              >
+                El Nombre es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Segundo Nombre</mat-label>
+              <input matInput formControlName="secondName" />
+            </mat-form-field>
+          </div>
+
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Primer Apellido</mat-label>
+              <input matInput formControlName="firstLastname" required />
+              <mat-error
+                *ngIf="workerForm.get('firstLastname').hasError('required')"
+              >
+                El Apellido es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Segundo Apellido</mat-label>
+              <input matInput formControlName="secondLastname" />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Cedula</mat-label>
+              <input matInput formControlName="DNI" required />
+              <mat-error *ngIf="workerForm.get('DNI').hasError('required')">
+                La cedula es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Telefono</mat-label>
+              <input matInput formControlName="phone" required />
+              <mat-error *ngIf="workerForm.get('phone').hasError('required')">
+                El telefono es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Correo</mat-label>
+              <input matInput formControlName="email" />
+              <mat-error *ngIf="workerForm.get('email').hasError('email')">
+                El email no es valido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Tipo de Miembro</mat-label>
+              <mat-select
+                formControlName="workerType"
+                placeholder="Tipo de Miembro"
+                select
+              >
+                <mat-option value="1">
+                  <mat-label> Colector </mat-label>
+                </mat-option>
+                <mat-option value="2">
+                  <mat-label> Chofer </mat-label>
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="workerForm.get('workerType').hasError('required')"
+              >
+                El tipo de miembro es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div
+            class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"
+            *ngIf="workerForm.get('workerType').value === '2'"
+          >
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Tipo de Miembro</mat-label>
+              <mat-select formControlName="type" placeholder="Tipo" select>
+                <mat-option value="1">
+                  <mat-label> Avance </mat-label>
+                </mat-option>
+                <mat-option value="2">
+                  <mat-label> Socio </mat-label>
+                </mat-option>
+                <mat-option value="3">
+                  <mat-label> Presidente de linea </mat-label>
+                </mat-option>
+                <mat-option value="4">
+                  <mat-label> Encargado Politico </mat-label>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Numero de cert Medico</mat-label>
+              <input matInput formControlName="medical" required />
+              <mat-error *ngIf="workerForm.get('medical').hasError('required')">
+                El certificado es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Tipo de Licencia</mat-label>
+              <mat-select
+                formControlName="license"
+                placeholder="Tipo de Licencia"
+                select
+              >
+                <mat-option value="2">
+                  <mat-label> 2da </mat-label>
+                </mat-option>
+                <mat-option value="3">
+                  <mat-label> 3ra </mat-label>
+                </mat-option>
+                <mat-option value="4">
+                  <mat-label> 4ta </mat-label>
+                </mat-option>
+                <mat-option value="5">
+                  <mat-label> 5ta </mat-label>
+                </mat-option>
+                <mat-option value="6">
+                  <mat-label> 6ta </mat-label>
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="workerForm.get('license').hasError('required')">
+                La licencia es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Numero de socio</mat-label>
+              <input
+                type="number"
+                matInput
+                formControlName="membership"
+                required
+              />
+              <mat-error
+                *ngIf="workerForm.get('membership').hasError('required')"
+              >
+                El Numero es requerido y numerico
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Organizacion</mat-label>
+              <input matInput formControlName="organization" required />
+              <mat-error
+                *ngIf="workerForm.get('organization').hasError('required')"
+              >
+                La organization es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Ruta</mat-label>
+              <input matInput formControlName="route" required />
+              <mat-error *ngIf="workerForm.get('route').hasError('required')">
+                La ruta es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Ausencias</mat-label>
+              <input
+                type="number"
+                matInput
+                formControlName="absences"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Estatus</mat-label>
+              <mat-select
+                formControlName="status"
+                placeholder="Estatus"
+                select
+              >
+                <mat-option value="0">
+                  <mat-label> Inactivo </mat-label>
+                </mat-option>
+                <mat-option value="1">
+                  <mat-label> Activo </mat-label>
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="workerForm.get('workerType').hasError('required')"
+              >
+                El tipo de miembro es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
         <div class="row">
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
             <mat-form-field
               class="example-full-width mb-3"
               appearance="outline"
             >
-              <mat-label>Tipo de Contrato </mat-label>
-              <mat-select
-                formControlName="idContractType"
-                placeholder="Tipo de Contrato"
-                select
-              >
-                <mat-optgroup>
-                  <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11">
-                    <input
-                      matInput
-                      formControlName="searchTxt2"
-                      autocomplete="off"
-                      placeholder="Buscar"
-                    />
-                    <mat-icon
-                      (click)="contractForm.controls['searchTxt2'].setValue('')"
-                      >close</mat-icon
-                    >
-                  </div>
-                </mat-optgroup>
-                <mat-option
-                  *ngFor="
-                    let type of contractsType
-                      | contracts: contractForm.controls['searchTxt2'].value
-                  "
-                  [value]="type.idTipoContrato"
-                >
-                  <mat-label> {{ type.Descripcion }} </mat-label>
-                </mat-option>
-              </mat-select>
+              <mat-label>Direccion</mat-label>
+              <input matInput formControlName="address" />
             </mat-form-field>
           </div>
         </div>
         <div class="row">
-          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
             <mat-form-field
               class="example-full-width mb-3"
               appearance="outline"
             >
-              <mat-label>Importe</mat-label>
-              <input matInput formControlName="amount" required />
-              <mat-error
-                *ngIf="
-                  contractForm.get('amount').hasError('required') ||
-                  contractForm.get('amount').hasError('pattern')
-                "
-              >
-                El importe es requerido y con valor numerico
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-            <mat-form-field
-              class="example-full-width mb-3"
-              appearance="outline"
-            >
-              <mat-label>Tipo de moneda </mat-label>
-              <mat-select
-                formControlName="idCurrency"
-                placeholder="Tipo de moneda"
-                select
-              >
-                <mat-option
-                  *ngFor="let currency of currencies"
-                  [value]="currency.idMoneda"
-                >
-                  <mat-label> {{ currency.Descripcion }} </mat-label>
-                </mat-option>
-              </mat-select>
+              <mat-label>Observaciones</mat-label>
+              <input matInput formControlName="observations" />
             </mat-form-field>
           </div>
         </div>
-        <div class="row">
-          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-            <mat-form-field
-              class="example-full-width mb-3"
-              appearance="outline"
-            >
-              <mat-label>Fecha de inicio</mat-label>
-              <input
-                matInput
-                [matDatepicker]="picker"
-                formControlName="dateInit"
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-              <mat-error
-                *ngIf="contractForm.get('dateInit').hasError('required')"
-              >
-                Pro favor selecciona una fecha
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-            <mat-form-field
-              class="example-full-width mb-3"
-              appearance="outline"
-            >
-              <mat-label>Fecha de fin</mat-label>
-              <input
-                matInput
-                [matDatepicker]="picker2"
-                formControlName="dateEnd"
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="picker2"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker2></mat-datepicker>
-              <mat-error
-                *ngIf="contractForm.get('dateEnd').hasError('required')"
-              >
-                Por favor selecciona una fecha
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row" *ngIf="loaded">
-          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-            <mat-form-field
-              class="example-full-width mb-3"
-              appearance="outline"
-            >
-              <mat-label>Empleado</mat-label>
-              <mat-select
-                formControlName="idEmployee"
-                placeholder="empleados"
-                select
-              >
-                <mat-optgroup>
-                  <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11">
-                    <input
-                      matInput
-                      formControlName="searchTxt"
-                      autocomplete="off"
-                      placeholder="Buscar"
-                    />
-                    <mat-icon
-                      (click)="contractForm.controls['searchTxt'].setValue('')"
-                      >close</mat-icon
-                    >
-                  </div>
-                </mat-optgroup>
-                <mat-option
-                  *ngFor="
-                    let employee of employees
-                      | searchEmployee: contractForm.controls['searchTxt'].value
-                  "
-                  [value]="employee.idEmpleado"
-                >
-                  <mat-label>
-                    {{ employee.PrimerNombre + " " + employee.PrimerApellido }}
-                  </mat-label>
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-        <form class="register-form" [formGroup]="fileForm">
+
+
+
+        <!-- <form class="register-form" [formGroup]="fileForm">
           <div class="row" *ngIf="!changedFile">
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
               <div class="row">
@@ -229,14 +368,14 @@
               </button>
             </div>
           </div>
-        </form>
+        </form> -->
         <br />
         <div class="row">
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
             <div class="example-button-row">
               <button
-                [disabled]="!contractForm.valid"
-                mat-raised-button
+              mat-raised-button
+                [disabled]="!workerForm.valid"
                 color="primary"
                 [type]="submit"
                 [mat-dialog-close]
@@ -258,56 +397,4 @@
       </form>
     </div>
   </div>
-  <!-- <div *ngIf="isDetails" class="contact-details">
-    <div class="modalHeader">
-      <div class="editRowModal">
-        <div class="modalHeader clearfix">
-          <div class="modal-about contact-header">
-            <div class="contact-details-img">
-              <img [src]='contacts.img' alt="avatar">
-            </div>
-            <div class="contact-details-heading">
-              <div class="contact-details-name mb-2">{{contacts.name}}</div>
-              <div class="badge col-green">Friends</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-    <div mat-dialog-content>
-      <mat-card-content>
-        <div class="contact-details-field">
-          <i class="material-icons-two-tone color-icon">email</i>
-          <div class="contact-detail-info"> {{contacts.email}}
-          </div>
-        </div>
-        <div class="contact-details-field">
-          <i class="material-icons-two-tone color-icon">phonelink_ring</i>
-          <div class="contact-detail-info"> {{contacts.mobile}}
-          </div>
-        </div>
-        <div class="contact-details-field">
-          <i class="material-icons-two-tone color-icon">cake</i>
-          <div class="contact-detail-info"> {{contacts.birthDate | date: 'MMMM d, yyyy'}}
-          </div>
-        </div>
-        <div class="contact-details-field">
-          <i class="material-icons-two-tone color-icon">location_on</i>
-          <div class="contact-detail-info"> {{contacts.address}}
-          </div>
-        </div>
-        <div class="contact-details-field">
-          <i class="material-icons-two-tone color-icon">note</i>
-          <div class="contact-detail-info"> {{contacts.note}}
-          </div>
-        </div>
-      </mat-card-content>
-    </div>
-    <p>
-
-    </p>
-  </div> -->
 </div>

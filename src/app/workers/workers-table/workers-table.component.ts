@@ -10,7 +10,7 @@ import { map, filter } from 'rxjs/operators';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UnsubscribeOnDestroyAdapter } from '../../shared/UnsubscribeOnDestroyAdapter';
-//import { FormComponent } from '../form/form.component';
+import { FormComponent } from '../form/form.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DeleteComponent } from '../delete/delete.component';
 import { MatPaginator } from '@angular/material/paginator';
@@ -65,7 +65,41 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
   ngOnInit(): void {
     this.loadData();
   }
-  addNew() { }
+  addNew() {
+    let tempDirection;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(FormComponent, {
+      width: '1300px',
+      data: {
+        contract: this.contr,
+        action: 'add'
+      },
+      direction: tempDirection
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        // After dialog is closed we're doing frontend updates
+        // For add we're just pushing a new row inside DataServicex
+        this.WorkerDatabase.dataChange.value.unshift(
+          this.workerService.getDialogData()
+        );
+        this.refreshTable();
+        this.showNotification(
+          'snackbar-success',
+          'Add Record Successfully...!!!',
+          'bottom',
+          'center'
+        );
+      }
+      setTimeout(() => {
+        this.refresh();
+      }, 1000);
+    });
+   }
   editCall(row) { }
   deleteItem(row) { }
   toggleStar(row) {
