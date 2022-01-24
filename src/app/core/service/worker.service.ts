@@ -12,9 +12,9 @@ import { Worker } from '../models/worker';
 })
 export class WorkerService extends UnsubscribeOnDestroyAdapter {
 
-  private readonly API_URL2 = 'https://imvitracv.herokuapp.com/worker';
+  private readonly API_URL = 'https://imvitracv.herokuapp.com/worker';
 
-  private readonly API_URL = 'http://localhost:3001/worker';
+  private readonly API_URL2 = 'http://localhost:3001/worker';
   dataChange: BehaviorSubject<Worker[]> = new BehaviorSubject<Worker[]>([]);
   public dataWorkers$ = this.dataChange.asObservable();
 
