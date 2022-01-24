@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "imvitracv-6aa26": {
+      "hosting": {
+        "atrio": [
+          "imvitracv-6aa26"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "imvitracv-6aa26"
+  }
+}

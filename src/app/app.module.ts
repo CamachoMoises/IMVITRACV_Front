@@ -16,6 +16,9 @@ import { fakeBackendProvider } from './core/interceptor/fake-backend';
 import { ErrorInterceptor } from './core/interceptor/error.interceptor';
 import { JwtInterceptor } from './core/interceptor/jwt.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from '../environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import {
   PerfectScrollbarModule,
   PERFECT_SCROLLBAR_CONFIG,
@@ -66,7 +69,9 @@ export function createTranslateLoader(http: HttpClient): any {
       }
     }),
     CoreModule,
-    SharedModule
+    SharedModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

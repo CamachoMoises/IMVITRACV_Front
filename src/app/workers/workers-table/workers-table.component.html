@@ -104,6 +104,14 @@
                         <mat-cell *matCellDef="let row">{{ row.idWorker }}</mat-cell>
                       </ng-container>
 
+                      <!-- workerType Column -->
+                      <ng-container matColumnDef="workerType">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                          >Tipo
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{ row.workerType }}</mat-cell>
+                      </ng-container>
+
                       <!-- firstName Column -->
                       <ng-container matColumnDef="firstName">
                         <mat-header-cell *matHeaderCellDef mat-sort-header
@@ -167,7 +175,7 @@
                       <!-- membership Column -->
                       <ng-container matColumnDef="membership">
                         <mat-header-cell *matHeaderCellDef mat-sort-header
-                          >Numero de socio
+                          >N° socio
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row">
                           {{ row.membership }}

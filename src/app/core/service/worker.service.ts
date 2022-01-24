@@ -11,7 +11,7 @@ import { Worker } from '../models/worker';
   providedIn: 'root'
 })
 export class WorkerService extends UnsubscribeOnDestroyAdapter {
-  private readonly API_URL = 'http://localhost:3001/worker';
+  private readonly API_URL = 'https://imvitracv.herokuapp.com/worker';
   dataChange: BehaviorSubject<Worker[]> = new BehaviorSubject<Worker[]>([]);
   public dataWorkers$ = this.dataChange.asObservable();
 
@@ -39,7 +39,7 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
     this.subs.sink = this.httpClient.get<Worker[]>(this.API_URL + '/list').subscribe(
       (data) => {
         this.isTblLoading = false;
-        console.log('Contracts', data);
+        console.log('Workers', data);
         this.dataChange.next(data);
       },
       (error: HttpErrorResponse) => {

@@ -27,6 +27,7 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
   filterToggle = false;
   displayedColumns = [
     'idWorker',
+    'workerType',
     'firstName',
     'secondName',
     'firstLastname',
@@ -63,14 +64,6 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
 
   ngOnInit(): void {
     this.loadData();
-    this.WorkerDatabase.dataWorkers$.subscribe(data =>{
-      console.log('njd',data.length);
-      if(data.length > 0) {
-        console.log('OJO');
-
-        this.dataSource.connect()
-      }
-    })
   }
   addNew() { }
   editCall(row) { }
@@ -116,7 +109,7 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
 
 
 }
-export class ExampleDataSource {
+export class ExampleDataSource extends DataSource<Worker> {
 
   filterChange = new BehaviorSubject('');
 
@@ -134,11 +127,9 @@ export class ExampleDataSource {
     public _sort: MatSort,
     private domSanitizer: DomSanitizer
   ) {
-
+    super();
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
     workerDatabase.getWorkers()
-
-
   }
   connect(): Observable<Worker[]> {
     const displayDataChanges = [
@@ -157,7 +148,6 @@ export class ExampleDataSource {
           .filter((worker: Worker) => {
             const searchStr = (
               worker.idWorker,
-
               worker.workerType,
               worker.firstName,
               worker.secondName,
@@ -169,14 +159,10 @@ export class ExampleDataSource {
               worker.phone,
               worker.email,
               worker.medical,
-
               worker.organization,
-
               worker.route
-
-
             ).toLowerCase();
-            return searchStr
+            return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           })
         // Sort filtered data
         const sortedData = this.sortData(this.filteredData.slice());
@@ -203,6 +189,9 @@ export class ExampleDataSource {
       switch (this._sort.active) {
         case 'idWorker':
           [propertyA, propertyB] = [a.idWorker, b.idWorker];
+          break;
+        case 'workerType':
+          [propertyA, propertyB] = [a.workerType, b.workerType];
           break;
         case 'firstName':
           [propertyA, propertyB] = [a.firstName, b.firstName];
