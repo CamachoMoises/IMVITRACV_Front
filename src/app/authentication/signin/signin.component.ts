@@ -25,11 +25,10 @@ export class SigninComponent
   }
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: [
-        'admin@atrio.com',
+      email: ['',
         [Validators.required, Validators.email, Validators.minLength(5)]
       ],
-      password: ['admin', Validators.required]
+      password: ['', Validators.required]
     });
   }
   get f() {

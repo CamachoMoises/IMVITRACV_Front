@@ -30,7 +30,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     submenu: [
       {
-        path: '/Users',
+        path: '/users',
         title: 'MENUITEMS.USERS.LIST.USER',
         moduleName: 'Users',
         icon: '',
