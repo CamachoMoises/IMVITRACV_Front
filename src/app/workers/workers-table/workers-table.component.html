@@ -207,8 +207,8 @@
                             color="accent"
                             class="btn-tbl-confirm"
                             (click)="$event.stopPropagation()"
-                            [disabled]="!row.doc"
-                            (click)="downloadFile(row, i)"
+
+                            (click)="seeProfile(row, i)"
                           >
                             <mat-icon aria-label="Delete" class="col-white"
                               >insert_drive_file

@@ -329,9 +329,7 @@
           </div>
         </div>
 
-
-
-        <!-- <form class="register-form" [formGroup]="fileForm">
+        <form class="register-form" [formGroup]="fileForm">
           <div class="row" *ngIf="!changedFile">
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
               <div class="row">
@@ -339,9 +337,9 @@
                   <ngx-mat-file-input
                     formControlName="myFile"
                     [multiple]="false"
-                    [accept]="'.pdf'"
+                    [accept]="'image/*'"
                     [color]="'primary'"
-                    placeholder="PDF"
+                    placeholder="Imagen"
                   >
                   </ngx-mat-file-input>
                   <mat-error *ngIf="fileForm.get('myFile').hasError('maxSize')">
@@ -368,7 +366,7 @@
               </button>
             </div>
           </div>
-        </form> -->
+        </form>
         <br />
         <div class="row">
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">

@@ -1,21 +1,23 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Worker } from '../../core/models/worker';
+import { DeleteComponent } from '../delete/delete.component';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { DataSource } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UnsubscribeOnDestroyAdapter } from '../../shared/UnsubscribeOnDestroyAdapter';
 import { FormComponent } from '../form/form.component';
 import { DomSanitizer } from '@angular/platform-browser';
-import { DeleteComponent } from '../delete/delete.component';
+
 import { MatPaginator } from '@angular/material/paginator';
 
 import { WorkerService } from '../../core/service/worker.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workers-table',
@@ -46,12 +48,11 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
   userLogged
   constructor(
     private workerService: WorkerService,
+    private router: Router,
     public httpClient: HttpClient,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
     public domSanitizer: DomSanitizer,
-
-
   ) {
     super()
   }
@@ -75,7 +76,7 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
     const dialogRef = this.dialog.open(FormComponent, {
       width: '1300px',
       data: {
-        contract: this.contr,
+        worker: this.contr,
         action: 'add'
       },
       direction: tempDirection
@@ -100,8 +101,86 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
       }, 1000);
     });
    }
-  editCall(row) { }
-  deleteItem(row) { }
+  editCall(row) {
+    console.log(row);
+
+    this.id = row.id;
+    let tempDirection;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(FormComponent, {
+      width: '1300px',
+      data: {
+        worker: row,
+        action: 'edit'
+      },
+      direction: tempDirection
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        // When using an edit things are little different, firstly we find record inside DataService by id
+        const foundIndex = this.WorkerDatabase.dataChange.value.findIndex(
+          (x) => x.idWorker === this.id
+        );
+        // Then you update that record using data from dialogData (values you enetered)
+        this.WorkerDatabase.dataChange.value[foundIndex] =
+          this.WorkerDatabase.getDialogData();
+        // And lastly refresh table
+        this.refreshTable();
+        this.showNotification(
+          'black',
+          'Edit Record Successfully...!!!',
+          'bottom',
+          'center'
+        );
+      }
+      setTimeout(() => {
+        this.refresh();
+      }, 1000);
+    });
+  }
+  seeProfile(row, i) {
+    console.log(` navigate to ../profile/${row.idWorker}`);
+
+    this.router.navigate([`../profile/${row.idWorker}`])
+
+  }
+  deleteItem(row) {
+    this.id = row.id;
+    let tempDirection;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      data: row,
+      direction: tempDirection
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        const foundIndex = this.WorkerDatabase.dataChange.value.findIndex(
+          (x) => x.idWorker === this.id
+        );
+        // for delete we use splice in order to remove single object from DataService
+        this.WorkerDatabase.dataChange.value.splice(foundIndex, 1);
+        this.refreshTable();
+        this.showNotification(
+          'snackbar-danger',
+          'Delete Record Successfully...!!!',
+          'bottom',
+          'center'
+        );
+        setTimeout(() => {
+          this.refresh();
+        }, 1000);
+      }
+    });
+
+   }
   toggleStar(row) {
     console.log(row);
   }

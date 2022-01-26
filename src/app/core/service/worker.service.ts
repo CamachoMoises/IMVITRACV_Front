@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UnsubscribeOnDestroyAdapter } from '../../shared/UnsubscribeOnDestroyAdapter';
 import pdfMake from 'pdfmake/build/pdfmake';
@@ -13,10 +13,17 @@ import { Worker } from '../models/worker';
 export class WorkerService extends UnsubscribeOnDestroyAdapter {
 
   private readonly API_URL = 'https://imvitracv.herokuapp.com/worker';
+  private readonly API_URL_3 = 'https://imvitracv.herokuapp.com';
 
   private readonly API_URL2 = 'http://localhost:3001/worker';
+  private readonly API_URL_4 = 'http://localhost:3001';
+
+
   dataChange: BehaviorSubject<Worker[]> = new BehaviorSubject<Worker[]>([]);
   public dataWorkers$ = this.dataChange.asObservable();
+
+  profileData: Subject<Worker> = new Subject<Worker>();
+  public profileData$ = this.profileData.asObservable();
 
   dialogData: any;
   id = -1;
@@ -50,14 +57,22 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
         console.log(error.name + ' ' + error.message);
       }
     );
-    console.log('test');
 
     // }
   }
-  addWorker(worker: Worker):Promise<number> {
-    console.log("worker",worker)
-    this.subs.sink = this.httpClient.post(this.API_URL + '/newWorker', worker).subscribe((response: any) => {
+  profile(id:number) {
+    this.subs.sink = this.httpClient.get(this.API_URL_3 + `/profile/${id}`).subscribe( (res:Worker) => {
+      this.profileData.next(res)
+    }
+
+    )
+
+  }
+
+  async addWorker(worker: Worker):Promise<number> {
+    this.subs.sink = await this.httpClient.post(this.API_URL + '/newWorker', worker).subscribe((response: any) => {
       this.isTblLoading = false;
+      console.log('id in service', response);
       this.id = response.id
       return new Promise<number>((resolve, reject) => {
         resolve(this.id);
@@ -73,7 +88,7 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
       setTimeout(() => {
         this.isTblLoading = false;
         resolve(this.id);
-      }, 500);
+      }, 10000);
     })
   }
   async updateWorker(worker:Worker) {

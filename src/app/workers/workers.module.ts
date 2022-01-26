@@ -7,6 +7,9 @@ import { WorkersTableComponent } from './workers-table/workers-table.component';
 import { FormComponent as RequestForm } from './form/form.component';
 import { DeleteComponent } from './delete/delete.component';
 
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+
+
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -55,6 +58,7 @@ import { WorkerService } from '../core/service/worker.service';
     MatToolbarModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+    NgxMatFileInputModule
   ],
   providers: [
     WorkerService,

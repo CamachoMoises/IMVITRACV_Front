@@ -35,6 +35,8 @@ export class FormComponent implements OnInit {
   employees;
   loaded = false;
   MaxSize= 1
+  license=''
+  status = ''
   userLogged:string= localStorage.getItem('currentUserName')
   constructor(
     public dialogRef: MatDialogRef<FormComponent>,
@@ -49,8 +51,10 @@ export class FormComponent implements OnInit {
 
     if (this.action === 'edit') {
       this.isDetails = false;
-      this.dialogTitle = `Contrato de ${data.worker.firstName} ${data.worker.firstLastName}`;
+      this.dialogTitle = `Ficha de ${data.worker.firstName} ${data.worker.firstLastName}`;
       this.worker = data.worker;
+      this.license= this.worker.license.toString()
+      this.status = this.worker.status.toString()
     } else if (this.action === 'details') {
       this.worker = data.worker;
 
@@ -85,16 +89,16 @@ export class FormComponent implements OnInit {
       firstLastname:[ this.worker.firstLastname, [Validators.required]],
       secondLastname:[ this.worker.secondLastname],
       DNI:[ this.worker.DNI, [Validators.required]],
-      type:[ this.worker.type, [Validators.required]],
+      type:[ this.worker.type],
       address:[ this.worker.address],
       phone:[ this.worker.phone, [Validators.required]],
       email:[ this.worker.email,[Validators.email]],
       medical:[ this.worker.medical, [Validators.required]],
-      license:[ this.worker.license, [Validators.required]],
+      license:[ this.license, [Validators.required]],
       organization:[ this.worker.organization, [Validators.required]],
       membership:[ this.worker.membership, [Validators.required]],
       route:[ this.worker.route, [Validators.required]],
-      status:[ this.worker.status],
+      status:[ this.status, [Validators.required]],
       absences:[ this.worker.absences],
       observations:[ this.worker.observations]
     },
@@ -115,8 +119,6 @@ export class FormComponent implements OnInit {
   public confirmAdd(e: Event): void {
     e.stopPropagation();
     console.log('Form', this.workerForm.getRawValue());
-
-
     if (this.data.action === 'edit') {
       console.log('Edit Worker');
       this.workerService.updateWorker(this.workerForm.getRawValue())
@@ -129,7 +131,7 @@ export class FormComponent implements OnInit {
         if (this.id > 0) {
           console.log('results if form back', this.id);
           this.fileForm.controls['id'].setValue(this.id);
-          //this.addFile();
+          this.addFile();
         }
         this.onNoClick(this.id);
       });
