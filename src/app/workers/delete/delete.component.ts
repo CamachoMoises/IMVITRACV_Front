@@ -18,6 +18,6 @@ export class DeleteComponent {
     this.dialogRef.close();
   }
   confirmDelete(): void {
-    // this.workersService.deleteContract(this.data.id);
+    this.workersService.deleteWorker(this.data.idWorker);
   }
 }
