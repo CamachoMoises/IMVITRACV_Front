@@ -38,6 +38,10 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
   langStoreValue: string;
   defaultFlag: string;
   isOpenSidebar: boolean;
+  status=['inactivo','Activo'];
+  workerType=['','Colector','Chofer'];
+  type=['','Avance','Socio','Presidente de linea','Encargado Politico'];
+  licence=['', '1ra','2da','3ra','4ta','5ta','6ta']
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -53,6 +57,8 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
     ) {
     super()
   }
+
+
 
   ngOnInit(): void {
     this.subs.sink = this.activatedRoute.params.subscribe(params => {
@@ -74,62 +80,23 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
 
   ngAfterViewInit() {
     // set theme on startup
-    if (localStorage.getItem('theme')) {
-      this.renderer.removeClass(this.document.body, this.config.layout.variant);
-      this.renderer.addClass(this.document.body, localStorage.getItem('theme'));
-    } else {
-      this.renderer.addClass(this.document.body, this.config.layout.variant);
-    }
+    this.renderer.addClass(this.document.body, 'side-closed');
+    this.renderer.addClass(this.document.body, 'submenu-closed');
+    this.renderer.addClass(this.document.body, 'light');
 
     if (localStorage.getItem('menuOption')) {
       this.renderer.addClass(
         this.document.body,
         localStorage.getItem('menuOption')
       );
-    } else {
-      this.renderer.addClass(
-        this.document.body,
-        'menu_' + this.config.layout.sidebar.backgroundColor
-      );
-    }
-
-    if (localStorage.getItem('choose_logoheader')) {
-      this.renderer.addClass(
-        this.document.body,
-        localStorage.getItem('choose_logoheader')
-      );
-    } else {
-      this.renderer.addClass(
-        this.document.body,
-        'logo-' + this.config.layout.logo_bg_color
-      );
-    }
-
-    if (localStorage.getItem('sidebar_status')) {
-      if (localStorage.getItem('sidebar_status') === 'close') {
-        this.renderer.addClass(this.document.body, 'side-closed');
-        this.renderer.addClass(this.document.body, 'submenu-closed');
-      } else {
-        this.renderer.removeClass(this.document.body, 'side-closed');
-        this.renderer.removeClass(this.document.body, 'submenu-closed');
-      }
-    } else {
-      if (this.config.layout.sidebar.collapsed === true) {
-        this.renderer.addClass(this.document.body, 'side-closed');
-        this.renderer.addClass(this.document.body, 'submenu-closed');
-      }
     }
   }
 
   callSidemenuCollapse() {
     const hasClass = this.document.body.classList.contains('side-closed');
-    if (hasClass) {
-      this.renderer.removeClass(this.document.body, 'side-closed');
-      this.renderer.removeClass(this.document.body, 'submenu-closed');
-    } else {
-      this.renderer.addClass(this.document.body, 'side-closed');
-      this.renderer.addClass(this.document.body, 'submenu-closed');
-    }
+    this.renderer.addClass(this.document.body, 'side-closed');
+    this.renderer.addClass(this.document.body, 'submenu-closed');
+
   }
 
   mobileMenuSidebarOpen(event: any, className: string) {

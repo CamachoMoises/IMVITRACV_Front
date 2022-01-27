@@ -1,4 +1,10 @@
 {
+  "WORKER":{
+    "STATUS":{
+      "0":"Inactivo",
+      "1":"Activo"
+    }
+  },
   "HEADER":{
     "SEARCH": {
       "TEXT": "Suche.."

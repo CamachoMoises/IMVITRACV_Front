@@ -31,27 +31,7 @@
           </button>
         </li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <!-- Full Screen Button -->
-
-        <!-- <li class="nav-item" ngbDropdown>
-          <a ngbDropdownToggle class="lang-dropdown">
-            <img *ngIf="flagvalue !== undefined" src="{{flagvalue}}" height="16">
-            <img *ngIf="flagvalue === undefined" src="{{defaultFlag}}" height="16">
-          </a>
-          <div ngbDropdownMenu class="dropdown-menu lang-item dropdown-menu-right pullDown">
-            <a href="javascript:void(0);" class="dropdown-item lang-item-list" *ngFor="let item of listLang"
-              (click)="setLanguage(item.text, item.lang, item.flag)"
-              [ngClass]="{'active': langStoreValue === item.lang}">
-              <img src="{{item.flag}}" class="flag-img" height="12"> <span class="align-middle">{{item.text}}</span>
-            </a>
-          </div>
-        </li> -->
-
-        <!-- #END# Notifications-->
-
-        <!-- #END# Tasks -->
-      </ul>
+      <ul class="nav navbar-nav navbar-right"></ul>
     </div>
   </div>
 </nav>
@@ -68,19 +48,34 @@
                 <div class="user-name">
                   {{ workerData.firstName }} {{ workerData.firstLastname }}
                 </div>
-                <div class="name-center">Estatus {{ workerData.status }}</div>
+                <div class="name-center">
+                  Estatus {{ status[workerData.status] }}
+                </div>
               </div>
-             <!-- <ng-template> -->
-              <img
-              [src]="workerData.linkPhoto"
-              class="user-img"
-              alt="assets/images/logo.png"
-            />
-             <!-- </ng-template> -->
-              <p>
-                {{ workerData.workerType }}
+              <!-- <ng-template> -->
+
+              <div *ngIf="workerData.linkPhoto; else noPic">
+                <img
+                  [src]="workerData.linkPhoto"
+                  class="user-img"
+
+                  alt="assets/images/logo.png"
+                />
+              </div>
+
+              <ng-template #noPic>
+                <img
+                  src="assets/images/user/usrbig3.jpg"
+                  class="user-img"
+                  id="photo"
+                  alt=""
+                />
+              </ng-template>
+              <!-- </ng-template> -->
+              <h3>
+                {{ workerType[workerData.workerType] }}
                 <br />
-              </p>
+              </h3>
               <div>
                 <span class="phone">
                   <i class="material-icons">phone</i
@@ -90,7 +85,53 @@
             </div>
           </div>
         </div>
-        <div class="card"></div>
+        <div class="card" id="carnet">
+          <div class="row">
+          <div class="col-12">
+            <p id="code">
+              {{ workerData.code }}
+            </p>
+          </div>
+
+
+          <div class="col-7" *ngIf="workerData.linkPhoto; else noPic2">
+
+            <img
+            [src]="workerData.linkPhoto"
+            alt="assets/images/logo.png"
+            id="profile"
+            />
+          </div>
+
+          <div class="col-5" id="name">
+            <br>
+            {{ workerData.firstName}}
+            <br>
+            {{workerData.firstLastname}}
+              <br>
+              <br>
+
+              <p id="DNI">
+                V-{{ workerData.DNI}}
+              </p>
+          </div>
+
+          <div class="col-12">
+            <img
+            [src]="
+              'https://chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;' +
+              QRLink
+            "
+            id="qrcode"
+          />
+          </div>
+        </div>
+          <ng-template #noPic2>
+            <div class="col-7">
+              <img src="assets/images/user/usrbig3.jpg" id="profile" alt="" />
+            </div>
+          </ng-template>
+        </div>
         <div class="card"></div>
       </div>
       <div class="col-lg-8 col-md-12">
@@ -106,8 +147,13 @@
 
               <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="project_widget">
-                  <div class="header" *ngIf="id>0">
-                    <img [src]="'https://chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;'+QRLink" />
+                  <div class="header" *ngIf="id > 0">
+                    <img
+                      [src]="
+                        'https://chart.googleapis.com/chart?chs=350x350&amp;cht=qr&amp;' +
+                        QRLink
+                      "
+                    />
                   </div>
                 </div>
               </div>
@@ -146,7 +192,9 @@
                       <div class="col-md-3 col-6">
                         <strong>Estatus</strong>
                         <br />
-                        <p class="text-muted">{{ workerData.status }}</p>
+                        <p class="text-muted">
+                          {{ status[workerData.status] }}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -170,7 +218,9 @@
                       <div class="col-md-3 col-6 b-r">
                         <strong> Licencia </strong>
                         <br />
-                        <p class="text-muted">{{ workerData.license }}</p>
+                        <p class="text-muted">
+                          {{ licence[workerData.license] }}
+                        </p>
                       </div>
                       <div class="col-md-3 col-6">
                         <strong> N° de Socio </strong>
@@ -183,15 +233,54 @@
               </div>
 
               <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="project_widget">
-                  <div class="header">
-                    <h2><strong> Observaciones </strong></h2>
+                <div class="body">
+                  <div class="row">
+                    <div class="col-md-3 col-6 b-r">
+                      <strong> Ruta</strong>
+                      <br />
+                      <p class="text-muted">{{ workerData.route }}</p>
+                    </div>
+                    <div class="col-md-3 col-6 b-r">
+                      <strong> Organizacion </strong>
+                      <br />
+                      <p class="text-muted">{{ workerData.organization }}</p>
+                    </div>
+                    <div class="col-md-3 col-6 b-r">
+                      <strong> Ausencias </strong>
+                      <br />
+                      <p class="text-muted">{{ workerData.absences }}</p>
+                    </div>
+                    <div
+                      class="col-md-3 col-6"
+                      *ngIf="workerData.workerType == 2"
+                    >
+                      <strong> Tipo </strong>
+                      <br />
+                      <p class="text-muted">{{ type[workerData.type] }}</p>
+                    </div>
                   </div>
-                  <div class="body">
-                    <p>
-                      {{ workerData.observations }}
-                    </p>
-                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="header">
+                  <h2><strong> Direccion </strong></h2>
+                </div>
+                <div class="body">
+                  <p>
+                    {{ workerData.address }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="header">
+                  <h2><strong> Observaciones </strong></h2>
+                </div>
+                <div class="body">
+                  <p>
+                    {{ workerData.observations }}
+                  </p>
                 </div>
               </div>
             </mat-tab>
