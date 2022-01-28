@@ -78,6 +78,7 @@ export class FormComponent implements OnInit {
     return copy
   }
   ngOnInit():void {
+    localStorage.setItem('isRtl', 'false');
 
   }
   createWorkerForm(): FormGroup {

@@ -61,6 +61,7 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
 
 
   ngOnInit(): void {
+    localStorage.setItem('isRtl', 'false');
     this.subs.sink = this.activatedRoute.params.subscribe(params => {
       this.id= +params['id'];
       this.QRLink=`chl='https://imvitracv-6aa26.web.app/profile/${this.id}'&amp;choe=UTF-8`
@@ -92,40 +93,6 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
     }
   }
 
-  callSidemenuCollapse() {
-    const hasClass = this.document.body.classList.contains('side-closed');
-    this.renderer.addClass(this.document.body, 'side-closed');
-    this.renderer.addClass(this.document.body, 'submenu-closed');
-
-  }
-
-  mobileMenuSidebarOpen(event: any, className: string) {
-    const hasClass = event.target.classList.contains(className);
-    if (hasClass) {
-      this.renderer.removeClass(this.document.body, className);
-    } else {
-      this.renderer.addClass(this.document.body, className);
-    }
-  }
-
-  public toggleRightSidebar(): void {
-    this.subs.sink = this.rightSidebarService.sidebarState.subscribe(
-      (isRunning) => {
-        this.isOpenSidebar = isRunning;
-      }
-    );
-
-    this.rightSidebarService.setRightSidebar(
-      (this.isOpenSidebar = !this.isOpenSidebar)
-    );
-  }
-  logout() {
-    this.subs.sink = this.authService.logout().subscribe((res) => {
-      if (!res.success) {
-        this.router.navigate(['/authentication/signin']);
-      }
-    });
-  }
 
   ngOnDestroy(){
     this.profileData.unsubscribe();

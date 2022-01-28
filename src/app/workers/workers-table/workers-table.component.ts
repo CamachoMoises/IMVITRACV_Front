@@ -65,6 +65,7 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
 
   ngOnInit(): void {
     this.loadData();
+    localStorage.setItem('isRtl', 'false');
   }
   addNew() {
     let tempDirection;
