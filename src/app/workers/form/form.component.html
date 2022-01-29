@@ -116,6 +116,56 @@
           </div>
         </div>
 
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Fecha de emisión </mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="dateInit"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error
+                *ngIf="workerForm.get('dateInit').hasError('required')"
+              >
+                Pro favor selecciona una fecha
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Fecha de vencimiento</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker2"
+                formControlName="dateEnd"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker2"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+              <mat-error
+                *ngIf="workerForm.get('dateEnd').hasError('required')"
+              >
+                Por favor selecciona una fecha
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
             <mat-form-field

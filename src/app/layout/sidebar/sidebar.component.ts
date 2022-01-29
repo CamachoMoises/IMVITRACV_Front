@@ -29,6 +29,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   listMaxWidth: string;
   headerHeight = 60;
   routerObj = null;
+  user
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -95,6 +96,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
     this.initLeftSidebar();
     this.bodyTag = this.document.body;
+    this.user=JSON.parse(localStorage.getItem('currentUser'));
   }
   ngOnDestroy() {
     this.routerObj.unsubscribe();

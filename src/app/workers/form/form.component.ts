@@ -8,7 +8,7 @@ import {
   FormBuilder
 } from '@angular/forms';
 
-import { formatDate } from '@angular/common';
+import { formatDate, DatePipe } from '@angular/common';
 import { WorkerService } from 'src/app/core/service/worker.service';
 import { DateAdapter } from '@angular/material/core';
 import { AcceptValidator, MaxSizeValidator } from '@angular-material-components/file-input';
@@ -43,6 +43,7 @@ export class FormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private workerService: WorkerService,
     private fb: FormBuilder,
+    private datePipe: DatePipe,
     private dateAdapter: DateAdapter<Date>
   ) {
     // Set the defaults
@@ -78,8 +79,6 @@ export class FormComponent implements OnInit {
     return copy
   }
   ngOnInit():void {
-    localStorage.setItem('isRtl', 'false');
-
   }
   createWorkerForm(): FormGroup {
     return this.fb.group({
@@ -101,8 +100,10 @@ export class FormComponent implements OnInit {
       route:[ this.worker.route, [Validators.required]],
       status:[ this.status, [Validators.required]],
       absences:[ this.worker.absences],
-      observations:[ this.worker.observations]
-    },
+      observations:[ this.worker.observations],
+      dateInit:[ this.worker.dateInit, [Validators.required]],
+      dateEnd:[ this.worker.dateEnd, [Validators.required]],
+    },{validator:dateValidator}
     );
   }
   createFileForm(): FormGroup {
@@ -119,6 +120,14 @@ export class FormComponent implements OnInit {
   }
   public confirmAdd(e: Event): void {
     e.stopPropagation();
+    const myDateStart = new Date(this.workerForm['controls'].dateInit.value);
+    const myDateEnd = new Date(this.workerForm['controls'].dateEnd.value);
+    const formatStartDate = this.datePipe.transform(myDateStart, "yyyy-MM-dd");
+    const formatEndsDate = this.datePipe.transform(myDateEnd, "yyyy-MM-dd");
+    this.workerForm.controls['dateInit'].setValue(formatStartDate);
+    this.workerForm.controls['dateEnd'].setValue(formatEndsDate);
+
+
     console.log('Form', this.workerForm.getRawValue());
     if (this.data.action === 'edit') {
       console.log('Edit Worker');

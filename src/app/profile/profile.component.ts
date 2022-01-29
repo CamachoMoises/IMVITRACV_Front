@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UnsubscribeOnDestroyAdapter } from '../shared/UnsubscribeOnDestroyAdapter';
 
 import { WorkerService } from '../core/service/worker.service';
+import { formatDate } from '@angular/common';
 
 import { AuthService } from 'src/app/core/service/auth.service';
 import { RightSidebarService } from 'src/app/core/service/rightsidebar.service';
@@ -64,7 +65,7 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
     localStorage.setItem('isRtl', 'false');
     this.subs.sink = this.activatedRoute.params.subscribe(params => {
       this.id= +params['id'];
-      this.QRLink=`chl='https://imvitracv-6aa26.web.app/profile/${this.id}'&amp;choe=UTF-8`
+      this.QRLink=`chl=https://imvitracv-6aa26.firebaseapp.com/profile/${this.id}&amp;choe=UTF-8`
 
 
 
@@ -73,8 +74,12 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
 
     })
     this.profileData= this.workerService.profileData$.subscribe((data)=>{
-      console.log('profile', data);
       this.workerData= data
+
+      this.workerData.dateInit =formatDate(this.workerData.dateInit, 'dd-MM-yyyy', 'en');
+      this.workerData.dateEnd  =formatDate(this.workerData.dateEnd, 'dd-MM-yyyy', 'en'),
+      console.log('profile', this.workerData);
+
 
     })
   }

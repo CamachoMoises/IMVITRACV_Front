@@ -21,6 +21,8 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
 
   dataChange: BehaviorSubject<Worker[]> = new BehaviorSubject<Worker[]>([]);
   public dataWorkers$ = this.dataChange.asObservable();
+  dataLength: BehaviorSubject<number> = new BehaviorSubject<number>(0)
+  public Length$= this.dataLength.asObservable();
 
   profileData: Subject<Worker> = new Subject<Worker>();
   public profileData$ = this.profileData.asObservable();
@@ -36,21 +38,21 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
   }
   get data(): Worker[] {
-    console.log('get data', this.dataChange.value);
-
     return this.dataChange.value;
   }
   getDialogData() {
     return this.dialogData;
   }
 
-  getWorkers() {
+  getWorkers(page:number, size:number ) {
     // if (this.verified_user('see')) {
-    this.subs.sink = this.httpClient.get<Worker[]>(this.API_URL + '/list').subscribe(
+    this.subs.sink = this.httpClient.get<any>(this.API_URL + `/list/${page}/${size}`).subscribe(
       (data) => {
         this.isTblLoading = false;
-        console.log('Workers', data);
-        this.dataChange.next(data);
+        console.log('data', data.workers);
+
+        this.dataLength.next(data.dataLength);
+        this.dataChange.next(data.workers);
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
@@ -72,7 +74,6 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
   async addWorker(worker: Worker):Promise<number> {
     this.subs.sink = await this.httpClient.post(this.API_URL + '/newWorker', worker).subscribe((response: any) => {
       this.isTblLoading = false;
-      console.log('id in service', response);
       this.id = response.id
       return new Promise<number>((resolve, reject) => {
         resolve(this.id);
@@ -108,10 +109,10 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
 
   deleteWorker(id: number) {
     // if (this.verified_user('delete')) {
-    console.log(id);
+
     this.httpClient.delete(this.API_URL + "/delete/" + id).subscribe(data => {
       this.isTblLoading = false;
-      console.log(id);
+
     },
       (err: HttpErrorResponse) => {
         this.isTblLoading = false;

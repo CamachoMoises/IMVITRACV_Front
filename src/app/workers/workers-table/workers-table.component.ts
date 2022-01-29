@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Worker } from '../../core/models/worker';
 import { DeleteComponent } from '../delete/delete.component';
 import { HttpClient } from '@angular/common/http';
@@ -12,7 +12,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UnsubscribeOnDestroyAdapter } from '../../shared/UnsubscribeOnDestroyAdapter';
 import { FormComponent } from '../form/form.component';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DatePipe } from '@angular/common';
 
 import { MatPaginator } from '@angular/material/paginator';
 
@@ -24,7 +24,7 @@ import { Router } from '@angular/router';
   templateUrl: './workers-table.component.html',
   styleUrls: ['./workers-table.component.sass']
 })
-export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implements OnInit, AfterViewInit {
 
   filterToggle = false;
   displayedColumns = [
@@ -40,11 +40,14 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
     'status',
     'actions'
   ];
+  status=['inactivo','Activo'];
+  workerType=['','Colector','Chofer'];
   WorkerDatabase: WorkerService | null;
-  dataSource: ExampleDataSource | null;
+  dataSource: WorkerDataSource | null;
   selection = new SelectionModel<Worker>(true, []);
   contr: Worker | null
   id: number;
+  dataLength:number=0;
   userLogged
   constructor(
     private workerService: WorkerService,
@@ -52,7 +55,8 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
     public httpClient: HttpClient,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
-    public domSanitizer: DomSanitizer,
+
+    private datePipe: DatePipe
   ) {
     super()
   }
@@ -65,15 +69,24 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
 
   ngOnInit(): void {
     this.loadData();
-    localStorage.setItem('isRtl', 'false');
+    this.WorkerDatabase.Length$.subscribe((data:any) => {
+      console.log('datalength',data.dataLength);
+
+      this.dataLength= data.dataLength
+    })
+  }
+
+  ngAfterViewInit() {
+    merge(this.paginator.page, this.sort.sortChange).pipe().subscribe(() => {
+      this.loadData();
+        console.log('SHORT CHANGE2', this.paginator.pageIndex);
+
+    })
+
+
   }
   addNew() {
     let tempDirection;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
     const dialogRef = this.dialog.open(FormComponent, {
       width: '1300px',
       data: {
@@ -103,22 +116,13 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
     });
    }
   editCall(row) {
-    console.log(row);
-
     this.id = row.id;
-    let tempDirection;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
     const dialogRef = this.dialog.open(FormComponent, {
       width: '1300px',
       data: {
         worker: row,
         action: 'edit'
       },
-      direction: tempDirection
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
@@ -144,22 +148,13 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
     });
   }
   seeProfile(row, i) {
-    console.log(` navigate to ../profile/${row.idWorker}`);
-
     this.router.navigate([`../profile/${row.idWorker}`])
-
   }
   deleteItem(row) {
     this.id = row.id;
-    let tempDirection;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
+
     const dialogRef = this.dialog.open(DeleteComponent, {
       data: row,
-      direction: tempDirection
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
@@ -182,9 +177,7 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
     });
 
    }
-  toggleStar(row) {
-    console.log(row);
-  }
+
   refresh() {
     this.loadData();
   }
@@ -196,11 +189,11 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
 
   public loadData() {
     this.WorkerDatabase = new WorkerService(this.httpClient);
-    this.dataSource = new ExampleDataSource(
+    this.dataSource = new WorkerDataSource(
       this.WorkerDatabase,
       this.paginator,
       this.sort,
-      this.domSanitizer
+
     );
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup')
       // .debounceTime(150)
@@ -223,7 +216,7 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
 
 
 }
-export class ExampleDataSource extends DataSource<Worker> {
+export class WorkerDataSource extends DataSource<Worker> {
 
   filterChange = new BehaviorSubject('');
 
@@ -238,14 +231,17 @@ export class ExampleDataSource extends DataSource<Worker> {
   constructor(
     public workerDatabase: WorkerService,
     public paginator: MatPaginator,
-    public _sort: MatSort,
-    private domSanitizer: DomSanitizer
+    public _sort: MatSort
   ) {
     super();
-    this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
-    workerDatabase.getWorkers()
+    if(!this.paginator.pageSize){
+      this.paginator.pageSize =5
+    }
+    // this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
+    workerDatabase.getWorkers(this.paginator.pageIndex, this.paginator.pageSize)
   }
   connect(): Observable<Worker[]> {
+
     const displayDataChanges = [
       this.workerDatabase.dataChange,
       this._sort.sortChange,
@@ -258,9 +254,9 @@ export class ExampleDataSource extends DataSource<Worker> {
       map(() => {
         // Filter data
         this.filteredData = this.workerDatabase.data
-          .slice()
-          .filter((worker: Worker) => {
-            const searchStr = (
+        .slice()
+        .filter((worker: Worker) => {
+          const searchStr = (
               worker.idWorker,
               worker.workerType,
               worker.firstName,
@@ -275,15 +271,12 @@ export class ExampleDataSource extends DataSource<Worker> {
               worker.medical,
               worker.organization,
               worker.route
-            ).toLowerCase();
-            return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-          })
-        // Sort filtered data
-        const sortedData = this.sortData(this.filteredData.slice());
-        const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
-        this.renderedData = sortedData.splice(
-          startIndex,
-          this.paginator.pageSize
+              ).toLowerCase();
+              return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+            })
+            // Sort filtered data
+            const sortedData = this.sortData(this.filteredData.slice());
+            this.renderedData = sortedData.splice( 0,this.paginator.pageSize
         );
         return this.renderedData;
       })

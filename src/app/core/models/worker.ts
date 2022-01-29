@@ -21,4 +21,6 @@ export class Worker {
   observations?:string;
   linkPhoto?:string;
   linkQR?:string;
+  dateInit?:Date;
+  dateEnd?:Date;
 }
