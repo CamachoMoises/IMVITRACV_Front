@@ -33,6 +33,7 @@ import {
   HttpClient
 } from '@angular/common/http';
 import { WINDOW_PROVIDERS } from './core/service/window.service';
+import { DatePipe } from '@angular/common';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -74,6 +75,7 @@ export function createTranslateLoader(http: HttpClient): any {
     AngularFirestoreModule
   ],
   providers: [
+    DatePipe,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
