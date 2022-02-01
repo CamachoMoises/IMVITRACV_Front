@@ -41,7 +41,7 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
     'actions'
   ];
   status=['inactivo','Activo'];
-  workerType=['','Colector','Chofer'];
+  workerType=['Taxista','Colector','Chofer'];
   WorkerDatabase: WorkerService | null;
   dataSource: WorkerDataSource | null;
   selection = new SelectionModel<Worker>(true, []);
@@ -70,8 +70,6 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
   ngOnInit(): void {
     this.loadData();
     this.WorkerDatabase.Length$.subscribe((data:any) => {
-      console.log('datalength',data.dataLength);
-
       this.dataLength= data.dataLength
     })
   }
@@ -79,8 +77,6 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
   ngAfterViewInit() {
     merge(this.paginator.page, this.sort.sortChange).pipe().subscribe(() => {
       this.loadData();
-        console.log('SHORT CHANGE2', this.paginator.pageIndex);
-
     })
 
 

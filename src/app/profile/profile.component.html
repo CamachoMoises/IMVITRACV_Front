@@ -59,7 +59,8 @@
             </div>
           </div>
         </div>
-        <div class="card" id="carnet">
+        <div  class="card" id="card">
+        <div  [ngClass]="'worker'+workerData.workerType">
           <div class="row">
           <div class="col-12">
             <p id="code">
@@ -78,10 +79,8 @@
           </div>
 
           <div class="col-5" id="name">
-            <br>
-            {{ workerData.firstName}}
-            <br>
-            {{workerData.firstLastname}}
+            {{ workerData.firstName.toUpperCase()}} <br>
+            {{workerData.firstLastname.toUpperCase()}}
               <br>
               <br>
 
@@ -113,6 +112,7 @@
             </div>
           </ng-template>
         </div>
+      </div>
         <div class="card"></div>
       </div>
       <div class="col-lg-8 col-md-12">

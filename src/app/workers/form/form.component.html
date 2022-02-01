@@ -116,7 +116,6 @@
           </div>
         </div>
 
-
         <div class="row">
           <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
             <mat-form-field
@@ -137,7 +136,7 @@
               <mat-error
                 *ngIf="workerForm.get('dateInit').hasError('required')"
               >
-                Pro favor selecciona una fecha
+                Por favor selecciona una fecha
               </mat-error>
             </mat-form-field>
           </div>
@@ -157,9 +156,7 @@
                 [for]="picker2"
               ></mat-datepicker-toggle>
               <mat-datepicker #picker2></mat-datepicker>
-              <mat-error
-                *ngIf="workerForm.get('dateEnd').hasError('required')"
-              >
+              <mat-error *ngIf="workerForm.get('dateEnd').hasError('required')">
                 Por favor selecciona una fecha
               </mat-error>
             </mat-form-field>
@@ -178,6 +175,10 @@
                 placeholder="Tipo de Miembro"
                 select
               >
+                <mat-option value="0">
+                  <mat-label> Taxista </mat-label>
+                </mat-option>
+
                 <mat-option value="1">
                   <mat-label> Colector </mat-label>
                 </mat-option>
@@ -336,11 +337,7 @@
               appearance="outline"
             >
               <mat-label>Estatus</mat-label>
-              <mat-select
-                formControlName="status"
-                placeholder="Estatus"
-                select
-              >
+              <mat-select formControlName="status" placeholder="Estatus" select>
                 <mat-option value="0">
                   <mat-label> Inactivo </mat-label>
                 </mat-option>
@@ -422,7 +419,7 @@
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
             <div class="example-button-row">
               <button
-              mat-raised-button
+                mat-raised-button
                 [disabled]="!workerForm.valid"
                 color="primary"
                 [type]="submit"

@@ -40,7 +40,7 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
   defaultFlag: string;
   isOpenSidebar: boolean;
   status=['inactivo','Activo'];
-  workerType=['','Colector','Chofer'];
+  workerType=['Taxista','Colector','Chofer'];
   type=['','Avance','Socio','Presidente de linea','Encargado Politico'];
   licence=['', '1ra','2da','3ra','4ta','5ta','6ta']
   constructor(
@@ -58,29 +58,16 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
     ) {
     super()
   }
-
-
-
   ngOnInit(): void {
-    localStorage.setItem('isRtl', 'false');
     this.subs.sink = this.activatedRoute.params.subscribe(params => {
       this.id= +params['id'];
       this.QRLink=`chl=https://imvitracv-6aa26.firebaseapp.com/profile/${this.id}&amp;choe=UTF-8`
-
-
-
       this.workerService.profile(this.id);
-      console.log(this.id);
-
     })
     this.profileData= this.workerService.profileData$.subscribe((data)=>{
       this.workerData= data
-
-      this.workerData.dateInit =formatDate(this.workerData.dateInit, 'dd-MM-yyyy', 'en');
-      this.workerData.dateEnd  =formatDate(this.workerData.dateEnd, 'dd-MM-yyyy', 'en'),
-      console.log('profile', this.workerData);
-
-
+      this.workerData.dateInit =formatDate(this.workerData.dateInit, 'dd/MM/yyyy', 'en');
+      this.workerData.dateEnd  =formatDate(this.workerData.dateEnd, 'dd/MM/yyyy', 'en');
     })
   }
 

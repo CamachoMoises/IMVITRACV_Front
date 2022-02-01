@@ -52,7 +52,7 @@ export class FormComponent implements OnInit {
 
     if (this.action === 'edit') {
       this.isDetails = false;
-      this.dialogTitle = `Ficha de ${data.worker.firstName} ${data.worker.firstLastName}`;
+      this.dialogTitle = `Ficha de ${data.worker.firstName} ${data.worker.firstLastname}`;
       this.worker = data.worker;
       this.license= this.worker.license.toString()
       this.status = this.worker.status.toString()
