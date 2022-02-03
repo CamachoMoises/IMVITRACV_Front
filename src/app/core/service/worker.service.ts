@@ -5,6 +5,8 @@ import { UnsubscribeOnDestroyAdapter } from '../../shared/UnsubscribeOnDestroyAd
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
+
+import { PDFModel } from '../../profile/PDFModel'
 import { Worker } from '../models/worker';
 
 @Injectable({
@@ -131,6 +133,15 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
         return err
       })
     return 'successful';
+  }
+
+  generatePDF(worker:Worker, pic ){
+    const PDFmodel = new PDFModel(worker,pic);
+    if(worker){
+      pdfMake.createPdf(PDFmodel).download(`${worker.firstName}_${worker.firstLastname}.pdf`);
+    }
+
+
   }
 
 

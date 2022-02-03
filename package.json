@@ -48,6 +48,8 @@
     "chart.js": "^2.9.4",
     "core-js": "^3.12.1",
     "echarts": "^4.9.0",
+    "firebase": "^9.4.0",
+    "html2canvas": "^1.4.1",
     "mat-progress-buttons": "^9.2.1",
     "moment": "^2.29.1",
     "ng-apexcharts": "^1.5.10",
@@ -66,14 +68,13 @@
     "ngx-perfect-scrollbar": "^10.1.1",
     "ngx-spinner": "^11.0.1",
     "pdfmake": "^0.2.4",
+    "rxfire": "^6.0.0",
     "rxjs": "^7.0.1",
     "simple-line-icons": "^2.4.1",
     "subsink": "^1.0.2",
     "sweetalert2": "^11.0.8",
     "tslib": "^2.2.0",
-    "zone.js": "~0.11.4",
-    "firebase": "^9.4.0",
-    "rxfire": "^6.0.0"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.0.3",
