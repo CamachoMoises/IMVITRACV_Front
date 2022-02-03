@@ -16,9 +16,6 @@ import { LanguageService } from 'src/app/core/service/language.service';
 import { DOCUMENT } from '@angular/common';
 import html2canvas from 'html2canvas'
 
-
-
-
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -57,8 +54,6 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
   }
   ngOnInit(): void {
     this.userLogged= JSON.parse(localStorage.getItem('currentUser'));
-    console.log('user',this.userLogged);
-
     this.subs.sink = this.activatedRoute.params.subscribe(params => {
       this.id = +params['id'];
       this.QRLink = `chl=https://imvitracv-6aa26.firebaseapp.com/profile/${this.id}&amp;choe=UTF-8`
@@ -68,18 +63,15 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
       this.workerData = data
       this.workerData.dateInit = formatDate(this.workerData.dateInit, 'dd/MM/yyyy', 'en');
       this.workerData.dateEnd = formatDate(this.workerData.dateEnd, 'dd/MM/yyyy', 'en');
-
       this.convertImgToBase64URL(this.workerData.linkPhoto);
     })
 
   }
-
   ngAfterViewInit() {
     // set theme on startup
     this.renderer.addClass(this.document.body, 'side-closed');
     this.renderer.addClass(this.document.body, 'submenu-closed');
     this.renderer.addClass(this.document.body, 'light');
-
     if (localStorage.getItem('menuOption')) {
       this.renderer.addClass(
         this.document.body,
@@ -87,8 +79,6 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
       );
     }
   }
-
-
   QRLoad(url){
     const img = new Image,
       canvas = document.createElement("canvas"),
@@ -113,11 +103,8 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
       const contentData = canvas.toDataURL('image/jpg')
       console.log('contentData', contentData);
       this.workerService.generatePDF(this.workerData, contentData)
-
     })
-
   }
-
   convertImgToBase64URL(url) {
     const img = new Image,
       canvas = document.createElement("canvas"),
@@ -136,19 +123,6 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
       img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
       img.src = src;
     }
-  }
-
-
-
-
-
-  calc_image_size(image) {
-    let y = 1;
-    if (image.endsWith('==')) {
-      y = 2
-    }
-    const x_size = (image.length * (3 / 4)) - y
-    return Math.round(x_size / 1024)
   }
 
   ngOnDestroy() {

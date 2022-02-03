@@ -31,13 +31,14 @@
                 <img
                   [src]="workerData.linkPhoto"
                   class="user-img"
+                  id="photo"
                   alt="assets/images/logo.png"
                 />
               </div>
 
               <ng-template #noPic>
                 <img
-                  src="assets/images/user/usrbig3.jpg"
+                  src="assets/images/user/notPhoto.png" alt="Error"
                   class="user-img"
                   id="photo"
                   alt=""
@@ -96,7 +97,7 @@
             </div>
             <ng-template #noPic2>
               <div class="col-7">
-                <img src="assets/images/user/usrbig3.jpg" id="profile" alt="" />
+                <img src="assets/images/user/notPhoto.png" id="profile" alt="" />
               </div>
             </ng-template>
           </div>

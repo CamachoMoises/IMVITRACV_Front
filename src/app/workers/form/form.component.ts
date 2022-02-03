@@ -1,6 +1,6 @@
 import { Worker } from './../../core/models/worker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormControl,
   Validators,
@@ -8,14 +8,11 @@ import {
   FormBuilder
 } from '@angular/forms';
 
-import { formatDate, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { WorkerService } from 'src/app/core/service/worker.service';
 import { DateAdapter } from '@angular/material/core';
-import { AcceptValidator, MaxSizeValidator } from '@angular-material-components/file-input';
+import { MaxSizeValidator } from '@angular-material-components/file-input';
 import { dateValidator } from 'src/app/core/validators/twoDays.validator'
-
-
-
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',

@@ -21,24 +21,6 @@ export const ROUTES: RouteInfo[] = [
     submenu: []
   },
 
-  {
-    path: '',
-    title: 'MENUITEMS.USERS.TEXT',
-    moduleName: 'Users',
-    icon: 'menu-icon ti-key',
-    class: 'menu-toggle',
-    groupTitle: false,
-    submenu: [
-      {
-        path: '/users',
-        title: 'MENUITEMS.USERS.LIST.USER',
-        moduleName: 'Users',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: []
-      },
-    ]
-  },
+
 
 ]

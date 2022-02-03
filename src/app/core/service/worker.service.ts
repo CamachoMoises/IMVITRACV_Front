@@ -8,7 +8,6 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 
 import { PDFModel } from '../../profile/PDFModel'
 import { Worker } from '../models/worker';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -25,6 +24,9 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
   public dataWorkers$ = this.dataChange.asObservable();
   dataLength: BehaviorSubject<number> = new BehaviorSubject<number>(0)
   public Length$= this.dataLength.asObservable();
+
+  dataDashboard: BehaviorSubject<any> = new BehaviorSubject<any>({})
+  public dataDashboard$= this.dataDashboard.asObservable();
 
   profileData: Subject<Worker> = new Subject<Worker>();
   public profileData$ = this.profileData.asObservable();
@@ -107,10 +109,9 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
   }
 
 
-  deleteWorker(id: number) {
+   async deleteWorker(id: number) {
     // if (this.verified_user('delete')) {
-
-    this.httpClient.delete(this.API_URL + "/delete/" + id).subscribe(data => {
+    await this.httpClient.delete(this.API_URL + "/delete/" + id).subscribe(data => {
       this.isTblLoading = false;
 
     },
@@ -142,6 +143,17 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
     }
 
 
+  }
+
+  Dashboard(){
+    this.subs.sink = this.httpClient.get<any>(this.API_URL + '/dashboard').subscribe( (data) => {
+      this.isTblLoading = false;
+      this.dataDashboard.next(data)
+    },
+    (error: HttpErrorResponse) => {
+      this.isTblLoading = false;
+      console.log(error.name + ' ' + error.message);
+    })
   }
 
 
