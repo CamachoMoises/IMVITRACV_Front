@@ -41,7 +41,7 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
     'actions'
   ];
   status=['inactivo','Activo'];
-  workerType=['Taxista','Colector','Chofer'];
+  workerType=['Taxista','Colector','Chofer','Moto-Taxista'];
   WorkerDatabase: WorkerService | null;
   dataSource: WorkerDataSource | null;
   selection = new SelectionModel<Worker>(true, []);

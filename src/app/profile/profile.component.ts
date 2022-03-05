@@ -23,6 +23,7 @@ import html2canvas from 'html2canvas'
 })
 export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy, AfterViewInit {
   id: number = 0;
+  googleSheet: string ="https://chart.googleapis.com/chart?chs=350x350&amp;cht=qr&amp;"
   userLogged
   corsProxy= 'https://cors-anywhere.herokuapp.com/'
   QRLink
@@ -39,7 +40,7 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
   defaultFlag: string;
   isOpenSidebar: boolean;
   status = ['inactivo', 'Activo'];
-  workerType = ['Taxista', 'Colector', 'Chofer'];
+  workerType = ['Taxista', 'Colector', 'Chofer',"Moto-Taxista"];
   type = ['', 'Avance', 'Socio', 'Presidente de linea', 'Encargado Politico'];
   licence = ['', '1ra', '2da', '3ra', '4ta', '5ta', '6ta']
   constructor(
@@ -61,6 +62,8 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
     })
     this.profileData = this.workerService.profileData$.subscribe((data) => {
       this.workerData = data
+      console.log('Worker data', this.workerData);
+
       this.workerData.dateInit = formatDate(this.workerData.dateInit, 'dd/MM/yyyy', 'en');
       this.workerData.dateEnd = formatDate(this.workerData.dateEnd, 'dd/MM/yyyy', 'en');
       this.convertImgToBase64URL(this.workerData.linkPhoto);
@@ -89,8 +92,8 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0);
-        const imagen = canvas.toDataURL("image/png");
-        this.QRBase64= imagen
+        const image = canvas.toDataURL("image/png");
+        this.QRBase64= image
       }
       img.src = src;
   };
@@ -115,8 +118,8 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
       canvas.width = img.width;
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
-      const imagen = canvas.toDataURL("image/png");
-      this.photoBase64 = imagen;
+      const image = canvas.toDataURL("image/png");
+      this.photoBase64 = image;
     }
     img.src = src;
     if (img.complete || img.complete === undefined) {
