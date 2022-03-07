@@ -1,9 +1,9 @@
-<nav #navbar class="navbar">
+<nav class="navbar">
   <div class="container-fluid">
-    <div class="navbar-header">
+    <div class="navbar">
       <a class="navbar-brand" routerLink="/dashboard/main">
         <img src="assets/images/logo.png" alt="" />
-        <span class="logo-name">IMVITRACV</span>
+        <span class="logo-name"   >IMVITRACV</span>
       </a>
     </div>
   </div>
@@ -106,35 +106,7 @@
       <div class="col-lg-8 col-md-12">
         <div class="card">
           <mat-tab-group>
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon class="example-tab-icon msr-2"
-                  >settings_overscan</mat-icon
-                >
-                Codigo Qr
-              </ng-template>
 
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="project_widget">
-                  <div class="header" *ngIf="id > 0">
-                    <img
-                      [src]="
-                        'https://chart.googleapis.com/chart?chs=350x350&amp;cht=qr&amp;' +
-                        QRLink
-                      "
-                      id="QRLink"
-                      (load)="
-                        QRLoad(
-                          corsProxy +
-                            'https://chart.googleapis.com/chart?chs=350x350&amp;cht=qr&amp;' +
-                            QRLink
-                        )
-                      "
-                    />
-                  </div>
-                </div>
-              </div>
-            </mat-tab>
             <mat-tab>
               <ng-template mat-tab-label>
                 <mat-icon class="example-tab-icon msr-2">face</mat-icon>
@@ -258,6 +230,35 @@
                   <p>
                     {{ workerData.observations }}
                   </p>
+                </div>
+              </div>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon class="example-tab-icon msr-2"
+                  >settings_overscan</mat-icon
+                >
+                Codigo Qr
+              </ng-template>
+
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="project_widget">
+                  <div class="header" *ngIf="id > 0">
+                    <img
+                      [src]="
+                        'https://chart.googleapis.com/chart?chs=350x350&amp;cht=qr&amp;' +
+                        QRLink
+                      "
+                      id="QRLink"
+                      (load)="
+                        QRLoad(
+                          corsProxy +
+                            'https://chart.googleapis.com/chart?chs=350x350&amp;cht=qr&amp;' +
+                            QRLink
+                        )
+                      "
+                    />
+                  </div>
                 </div>
               </div>
             </mat-tab>

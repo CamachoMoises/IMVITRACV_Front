@@ -7,7 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { DataSource } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UnsubscribeOnDestroyAdapter } from '../../shared/UnsubscribeOnDestroyAdapter';
@@ -25,7 +25,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./workers-table.component.sass']
 })
 export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implements OnInit, AfterViewInit {
-
+  filterSearch='Unfiltered'
   filterToggle = false;
   displayedColumns = [
     'idWorker',
@@ -76,7 +76,31 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
 
   ngAfterViewInit() {
     merge(this.paginator.page, this.sort.sortChange).pipe().subscribe(() => {
+      console.log('From merge Paginator and sort');
+
       this.loadData();
+    })
+
+    fromEvent(this.filter.nativeElement, 'keyup').pipe(
+      // get value
+      map((event: any) => {
+        return event.target.value;
+      }),
+      // if character length greater then 2
+      //filter((res) => res.length > 2),
+      // Time in milliseconds between key events
+      debounceTime(500),
+      // If previous query is different from current
+      distinctUntilChanged()
+    ).subscribe((text: string) => {
+      this.paginator.pageIndex = 0
+      console.log('From keyup filter:', text);
+      if(text){
+        this.filterSearch= text;
+      }else{
+        this.filterSearch ='Unfiltered';
+      }
+      this.loadData()
     })
 
 
@@ -189,7 +213,7 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
       this.WorkerDatabase,
       this.paginator,
       this.sort,
-
+      this.filterSearch
     );
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup')
       // .debounceTime(150)
@@ -227,16 +251,19 @@ export class WorkerDataSource extends DataSource<Worker> {
   constructor(
     public workerDatabase: WorkerService,
     public paginator: MatPaginator,
-    public _sort: MatSort
+    public _sort: MatSort,
+    public filterSearch:string
   ) {
     super();
     if(!this.paginator.pageSize){
       this.paginator.pageSize =5
     }
     // this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
-    workerDatabase.getWorkers(this.paginator.pageIndex, this.paginator.pageSize)
   }
   connect(): Observable<Worker[]> {
+    console.log('At the star of connect', this.filterSearch);
+
+    this.workerDatabase.getWorkers(this.paginator.pageIndex, this.paginator.pageSize, this.filterSearch)
 
     const displayDataChanges = [
       this.workerDatabase.dataChange,
@@ -251,25 +278,25 @@ export class WorkerDataSource extends DataSource<Worker> {
         // Filter data
         this.filteredData = this.workerDatabase.data
         .slice()
-        .filter((worker: Worker) => {
-          const searchStr = (
-              worker.idWorker,
-              worker.workerType,
-              worker.firstName,
-              worker.secondName,
-              worker.firstLastname,
-              worker.secondLastname,
-              worker.DNI,
-              worker.type,
-              worker.address,
-              worker.phone,
-              worker.email,
-              worker.medical,
-              worker.organization,
-              worker.route
-              ).toLowerCase();
-              return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-            })
+        // .filter((worker: Worker) => {
+        //   const searchStr = (
+        //       worker.idWorker,
+        //       worker.workerType,
+        //       worker.firstName,
+        //       worker.secondName,
+        //       worker.firstLastname,
+        //       worker.secondLastname,
+        //       worker.DNI,
+        //       worker.type,
+        //       worker.address,
+        //       worker.phone,
+        //       worker.email,
+        //       worker.medical,
+        //       worker.organization,
+        //       worker.route
+        //       ).toLowerCase();
+        //       return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+        //     })
             // Sort filtered data
             const sortedData = this.sortData(this.filteredData.slice());
             this.renderedData = sortedData.splice( 0,this.paginator.pageSize

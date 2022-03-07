@@ -31,10 +31,10 @@ export class FormComponent implements OnInit {
   currencies;
   employees;
   loaded = false;
-  MaxSize= 1
-  license=''
+  MaxSize = 1
+  license = ''
   status = ''
-  userLogged:string= localStorage.getItem('currentUserName')
+  userLogged: string = localStorage.getItem('currentUserName')
   constructor(
     public dialogRef: MatDialogRef<FormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -51,7 +51,7 @@ export class FormComponent implements OnInit {
       this.isDetails = false;
       this.dialogTitle = `Ficha de ${data.worker.firstName} ${data.worker.firstLastname}`;
       this.worker = data.worker;
-      this.license= this.worker.license.toString()
+      this.license = this.worker.license.toString()
       this.status = this.worker.status.toString()
     } else if (this.action === 'details') {
       this.worker = data.worker;
@@ -75,37 +75,37 @@ export class FormComponent implements OnInit {
     copy.setDate(date.getDate() + days)
     return copy
   }
-  ngOnInit():void {
+  ngOnInit(): void {
   }
   createWorkerForm(): FormGroup {
     return this.fb.group({
       idWorker: [this.worker.idWorker],
-      workerType:[this.worker.workerType],
-      firstName:[ this.worker.firstName, [Validators.required]],
-      secondName:[ this.worker.secondName],
-      firstLastname:[ this.worker.firstLastname, [Validators.required]],
-      secondLastname:[ this.worker.secondLastname],
-      DNI:[ this.worker.DNI, [Validators.required]],
-      type:[ this.worker.type],
-      address:[ this.worker.address],
-      phone:[ this.worker.phone, [Validators.required]],
-      email:[ this.worker.email,[Validators.email]],
-      medical:[ this.worker.medical, [Validators.required]],
-      license:[ this.license, [Validators.required]],
-      organization:[ this.worker.organization, [Validators.required]],
-      membership:[ this.worker.membership, [Validators.required]],
-      route:[ this.worker.route, [Validators.required]],
-      status:[ this.status, [Validators.required]],
-      absences:[ this.worker.absences],
-      observations:[ this.worker.observations],
-      dateInit:[ this.worker.dateInit, [Validators.required]],
-      dateEnd:[ this.worker.dateEnd, [Validators.required]],
-    },{validator:dateValidator}
+      workerType: [this.worker.workerType],
+      firstName: [this.worker.firstName, [Validators.required]],
+      secondName: [this.worker.secondName],
+      firstLastname: [this.worker.firstLastname, [Validators.required]],
+      secondLastname: [this.worker.secondLastname],
+      DNI: [this.worker.DNI, [Validators.required]],
+      type: [this.worker.type],
+      address: [this.worker.address],
+      phone: [this.worker.phone, [Validators.required]],
+      email: [this.worker.email, [Validators.email]],
+      medical: [this.worker.medical, [Validators.required]],
+      license: [this.license, [Validators.required]],
+      organization: [this.worker.organization, [Validators.required]],
+      membership: [this.worker.membership, [Validators.required]],
+      route: [this.worker.route],
+      status: [this.status, [Validators.required]],
+      absences: [this.worker.absences],
+      observations: [this.worker.observations],
+      dateInit: [this.worker.dateInit, [Validators.required]],
+      dateEnd: [this.worker.dateEnd, [Validators.required]],
+    }, { validator: dateValidator }
     );
   }
   createFileForm(): FormGroup {
     return this.fb.group({
-      myFile: [null, [Validators.required, MaxSizeValidator(this.MaxSize*1024*1024) ]],
+      myFile: [null, [Validators.required, MaxSizeValidator(this.MaxSize * 1024 * 1024)]],
       id: [this.worker.idWorker, [Validators.required]]
     })
   }
@@ -115,6 +115,13 @@ export class FormComponent implements OnInit {
   onNoClick(id): void {
     this.dialogRef.close(id);
   }
+  onWorkerType(type: string, element: number): void {
+    if (element == 0 || element == 3) {
+      this.workerForm.controls['route'].setValue(null);
+
+    }
+  }
+
   public confirmAdd(e: Event): void {
     e.stopPropagation();
     const myDateStart = new Date(this.workerForm['controls'].dateInit.value);
@@ -144,7 +151,7 @@ export class FormComponent implements OnInit {
       });
     }
   }
-  clearSearch():void{
+  clearSearch(): void {
     this.workerForm.controls['searchTxt'].setValue('')
   }
   addFile(): void {

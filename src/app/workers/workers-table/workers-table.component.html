@@ -35,11 +35,12 @@
                                 ></label
                               >
                               <input
-                                placeholder="Buscar en la hoja "
+                                placeholder="Buscar miembros "
                                 type="text"
                                 #filter
                                 class="browser-default search-field"
                                 aria-label="Search box"
+                                maxlength="10"
                               />
                             </li>
                           </ul>
@@ -256,7 +257,7 @@
                         dataSource.renderedData.length == 0 ? '' : 'none'
                       "
                     >
-                      No results
+                      Sin resultados
                     </div>
                     <mat-paginator
                       #paginator

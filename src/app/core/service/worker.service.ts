@@ -48,11 +48,15 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
     return this.dialogData;
   }
 
-  getWorkers(page: number, size: number) {
+  getWorkers(page: number, size: number, filter:string) {
+
+    console.log('service filter: ', filter);
     // if (this.verified_user('see')) {
-    this.subs.sink = this.httpClient.get<any>(this.API_URL + `/list/${page}/${size}`).subscribe(
+    this.subs.sink = this.httpClient.get<any>(this.API_URL + `/list/${page}/${size}/${filter}`).subscribe(
       (data) => {
         this.isTblLoading = false;
+        console.log('dataLength',data.dataLength);
+
         this.dataLength.next(data.dataLength);
         this.dataChange.next(data.workers);
       },

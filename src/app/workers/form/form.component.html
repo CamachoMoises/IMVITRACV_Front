@@ -32,7 +32,7 @@
               appearance="outline"
             >
               <mat-label>Primer Nombre</mat-label>
-              <input matInput formControlName="firstName" required />
+              <input matInput formControlName="firstName" required maxlength="20" />
               <mat-error
                 *ngIf="workerForm.get('firstName').hasError('required')"
               >
@@ -47,7 +47,7 @@
               appearance="outline"
             >
               <mat-label>Segundo Nombre</mat-label>
-              <input matInput formControlName="secondName" />
+              <input matInput formControlName="secondName" maxlength="20" />
             </mat-form-field>
           </div>
 
@@ -57,7 +57,7 @@
               appearance="outline"
             >
               <mat-label>Primer Apellido</mat-label>
-              <input matInput formControlName="firstLastname" required />
+              <input matInput formControlName="firstLastname" required  maxlength="20"/>
               <mat-error
                 *ngIf="workerForm.get('firstLastname').hasError('required')"
               >
@@ -72,7 +72,7 @@
               appearance="outline"
             >
               <mat-label>Segundo Apellido</mat-label>
-              <input matInput formControlName="secondLastname" />
+              <input matInput formControlName="secondLastname" maxlength="20" />
             </mat-form-field>
           </div>
         </div>
@@ -84,7 +84,7 @@
               appearance="outline"
             >
               <mat-label>Cedula</mat-label>
-              <input matInput formControlName="DNI" required />
+              <input matInput formControlName="DNI" required maxlength="8" />
               <mat-error *ngIf="workerForm.get('DNI').hasError('required')">
                 La cedula es requerida
               </mat-error>
@@ -96,7 +96,7 @@
               appearance="outline"
             >
               <mat-label>Telefono</mat-label>
-              <input matInput formControlName="phone" required />
+              <input matInput formControlName="phone" required maxlength="11" />
               <mat-error *ngIf="workerForm.get('phone').hasError('required')">
                 El telefono es requerida
               </mat-error>
@@ -108,7 +108,7 @@
               appearance="outline"
             >
               <mat-label>Correo</mat-label>
-              <input matInput formControlName="email" />
+              <input matInput formControlName="email" maxlength="25"/>
               <mat-error *ngIf="workerForm.get('email').hasError('email')">
                 El email no es valido
               </mat-error>
@@ -127,6 +127,7 @@
                 matInput
                 [matDatepicker]="picker"
                 formControlName="dateInit"
+                required
               />
               <mat-datepicker-toggle
                 matSuffix
@@ -150,6 +151,7 @@
                 matInput
                 [matDatepicker]="picker2"
                 formControlName="dateEnd"
+                required
               />
               <mat-datepicker-toggle
                 matSuffix
@@ -175,17 +177,17 @@
                 placeholder="Tipo de Miembro"
                 select
               >
-                <mat-option value="0">
+                <mat-option value="0" (click)="onWorkerType('Taxista',0)">
                   <mat-label> Taxista </mat-label>
                 </mat-option>
 
-                <mat-option value="1">
+                <mat-option value="1" (click)="onWorkerType('Colector',1)" >
                   <mat-label> Colector </mat-label>
                 </mat-option>
-                <mat-option value="2">
+                <mat-option value="2"  (click)="onWorkerType('Chofer',2)">
                   <mat-label> Chofer </mat-label>
                 </mat-option>
-                <mat-option value="3">
+                <mat-option value="3" (click)="onWorkerType('Moto Taxista',3)">
                   <mat-label> Moto Taxista </mat-label>
                 </mat-option>
 
@@ -280,6 +282,7 @@
               <mat-label>Numero de socio</mat-label>
               <input
                 type="number"
+                maxlength="4"
                 matInput
                 formControlName="membership"
                 required
@@ -287,7 +290,7 @@
               <mat-error
                 *ngIf="workerForm.get('membership').hasError('required')"
               >
-                El Numero es requerido y numerico
+                El Numero de socio es requerido y numerico
               </mat-error>
             </mat-form-field>
           </div>
@@ -298,7 +301,7 @@
               appearance="outline"
             >
               <mat-label>Organizacion</mat-label>
-              <input matInput formControlName="organization" required />
+              <input matInput formControlName="organization" required maxlength="15"/>
               <mat-error
                 *ngIf="workerForm.get('organization').hasError('required')"
               >
@@ -308,33 +311,22 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-            <mat-form-field
-              class="example-full-width mb-3"
-              appearance="outline"
-            >
-              <mat-label>Ruta</mat-label>
-              <input matInput formControlName="route" required />
-              <mat-error *ngIf="workerForm.get('route').hasError('required')">
-                La ruta es requerida
-              </mat-error>
-            </mat-form-field>
-          </div>
-
           <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
             <mat-form-field
               class="example-full-width mb-3"
               appearance="outline"
             >
-              <mat-label>Ausencias</mat-label>
+              <mat-label> Infracciones </mat-label>
               <input
                 type="number"
                 matInput
                 formControlName="absences"
                 required
+                maxlength="3"
               />
             </mat-form-field>
           </div>
+
           <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
             <mat-form-field
               class="example-full-width mb-3"
@@ -352,10 +344,26 @@
               <mat-error
                 *ngIf="workerForm.get('workerType').hasError('required')"
               >
-                El tipo de miembro es requerido
+                El estatus del miembro es requerido
               </mat-error>
             </mat-form-field>
           </div>
+
+          <div
+          class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"
+          *ngIf="workerForm.get('workerType').value === '1' || workerForm.get('workerType').value === '2'  "
+          >
+            <mat-form-field
+              class="example-full-width mb-3"
+              appearance="outline"
+            >
+              <mat-label>Ruta</mat-label>
+              <input matInput formControlName="route"  maxlength="15"/>
+            </mat-form-field>
+          </div>
+
+
+
         </div>
         <div class="row">
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
@@ -364,7 +372,7 @@
               appearance="outline"
             >
               <mat-label>Direccion</mat-label>
-              <input matInput formControlName="address" />
+              <textarea  matInput  formControlName="address" maxlength="150" rows="2"></textarea>
             </mat-form-field>
           </div>
         </div>
@@ -375,7 +383,7 @@
               appearance="outline"
             >
               <mat-label>Observaciones</mat-label>
-              <input matInput formControlName="observations" />
+              <textarea matInput formControlName="observations"  maxlength="150" rows="2"></textarea>
             </mat-form-field>
           </div>
         </div>
