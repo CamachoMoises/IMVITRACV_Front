@@ -26,8 +26,8 @@
       }
     },
 
-    "MEMBERS":{
-      "TEXT":"Mienbros",
+    "REGISTER":{
+      "TEXT":"Registro",
       "LIST":{
         "CONTRACT":"Mienbros"
       }

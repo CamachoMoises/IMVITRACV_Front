@@ -14,6 +14,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -34,7 +36,9 @@ import { MatCardModule } from '@angular/material/card';
     MatTabsModule,
     MatCardModule,
     NgbModule,
-    MatTabsModule
+    MatTabsModule,
+    MatToolbarModule,
+    NgxSpinnerModule
   ]
 })
 export class ProfileModule { }

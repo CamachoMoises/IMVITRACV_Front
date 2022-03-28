@@ -34,6 +34,7 @@ export class FormComponent implements OnInit {
   MaxSize = 1
   license = ''
   status = ''
+  codeName = ['TAX-', 'COL-', 'OPE-', 'MOT-', 'IMV-TH-']
   userLogged: string = localStorage.getItem('currentUserName')
   constructor(
     public dialogRef: MatDialogRef<FormComponent>,
@@ -51,8 +52,16 @@ export class FormComponent implements OnInit {
       this.isDetails = false;
       this.dialogTitle = `Ficha de ${data.worker.firstName} ${data.worker.firstLastname}`;
       this.worker = data.worker;
-      this.license = this.worker.license.toString()
-      this.status = this.worker.status.toString()
+      if (this.worker.status) {
+        this.status = this.worker.status.toString()
+      }
+      if (this.worker.license) {
+        this.license = this.worker.license.toString()
+      }
+      if (this.worker.code) {
+        this.worker.code= this.worker.code.toString().padStart(4, '0')
+      }
+
     } else if (this.action === 'details') {
       this.worker = data.worker;
 
@@ -75,64 +84,84 @@ export class FormComponent implements OnInit {
     copy.setDate(date.getDate() + days)
     return copy
   }
+
   ngOnInit(): void {
   }
+
   createWorkerForm(): FormGroup {
     return this.fb.group({
       idWorker: [this.worker.idWorker],
+      codeNumber: [this.worker.code, [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern('^[0-9]*$')]],
       workerType: [this.worker.workerType],
       firstName: [this.worker.firstName, [Validators.required]],
       secondName: [this.worker.secondName],
       firstLastname: [this.worker.firstLastname, [Validators.required]],
       secondLastname: [this.worker.secondLastname],
-      DNI: [this.worker.DNI, [Validators.required]],
+      DNI: [this.worker.DNI, [Validators.required, Validators.pattern('^[0-9]*$')]],
       type: [this.worker.type],
       address: [this.worker.address],
-      phone: [this.worker.phone, [Validators.required]],
+      phone: [this.worker.phone, [Validators.required, Validators.pattern('^[0-9]*$')]],
       email: [this.worker.email, [Validators.email]],
-      medical: [this.worker.medical, [Validators.required]],
+      medical: [this.worker.medical],
       license: [this.license, [Validators.required]],
       organization: [this.worker.organization, [Validators.required]],
-      membership: [this.worker.membership, [Validators.required]],
+      membership: [this.worker.membership],
       route: [this.worker.route],
       status: [this.status, [Validators.required]],
       absences: [this.worker.absences],
       observations: [this.worker.observations],
-      dateInit: [this.worker.dateInit, [Validators.required]],
+      dateInit: [this.worker.dateInit],
       dateEnd: [this.worker.dateEnd, [Validators.required]],
+      code: [],
     }, { validator: dateValidator }
     );
   }
+
   createFileForm(): FormGroup {
     return this.fb.group({
       myFile: [null, [Validators.required, MaxSizeValidator(this.MaxSize * 1024 * 1024)]],
       id: [this.worker.idWorker, [Validators.required]]
     })
   }
+
   submit() {
     // emppty stuff
   }
+
   onNoClick(id): void {
     this.dialogRef.close(id);
   }
-  onWorkerType(type: string, element: number): void {
+
+  onWorkerType(element: number): void {
+    console.log('set null', element);
     if (element == 0 || element == 3) {
       this.workerForm.controls['route'].setValue(null);
-
+    } else if (element > 3) {
+      this.workerForm.controls['dateInit'].setValue(null);
+      this.workerForm.controls['absences'].setValue(null);
+      this.workerForm.controls['route'].setValue(null);
+      this.workerForm.controls['membership'].setValue(null);
+      this.workerForm.controls['medical'].setValue(null);
+      this.workerForm.controls['type'].setValue(null);
     }
   }
 
   public confirmAdd(e: Event): void {
     e.stopPropagation();
-    const myDateStart = new Date(this.workerForm['controls'].dateInit.value);
     const myDateEnd = new Date(this.workerForm['controls'].dateEnd.value);
-    const formatStartDate = this.datePipe.transform(myDateStart, "yyyy-MM-dd");
     const formatEndsDate = this.datePipe.transform(myDateEnd, "yyyy-MM-dd");
-    this.workerForm.controls['dateInit'].setValue(formatStartDate);
     this.workerForm.controls['dateEnd'].setValue(formatEndsDate);
+    const codeText = this.codeName[+this.workerForm['controls'].workerType.value]
+    this.workerForm.controls['code'].setValue(+this.workerForm['controls'].codeNumber.value)
 
 
-    console.log('Form', this.workerForm.getRawValue());
+    if (+this.workerForm['controls'].workerType.value <= 3) {
+      const myDateStart = new Date(this.workerForm['controls'].dateInit.value);
+      const formatStartDate = this.datePipe.transform(myDateStart, "yyyy-MM-dd");
+      this.workerForm.controls['dateInit'].setValue(formatStartDate);
+    }
+
+    console.log('Form', this.workerForm);
     if (this.data.action === 'edit') {
       console.log('Edit Worker');
       this.workerService.updateWorker(this.workerForm.getRawValue())

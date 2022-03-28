@@ -40,9 +40,12 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
   defaultFlag: string;
   isOpenSidebar: boolean;
   status = ['inactivo', 'Activo'];
-  workerType = ['Taxista', 'Colector', 'Chofer',"Moto-Taxista"];
+  workerType = ['Operador de taxi', 'Colector', 'Operador de transporte',"Operador de Moto taxi", 'Personal administrativo'];
   type = ['', 'Avance', 'Socio', 'Presidente de linea', 'Encargado Politico'];
-  licence = ['', '1ra', '2da', '3ra', '4ta', '5ta', '6ta']
+  licence = ['', '1ra', '2da', '3ra', '4ta', '5ta', '6ta'];
+  grade=['','Otro','Primaria','Bachiderato','Universitario','Master','Doctorado'];
+  codeName = ['TAX-', 'COL-', 'OPE-', 'MOT-', 'IMV-TH-'];
+  colorTag = ['yellow', 'red', 'blue','green', 'black'];
   constructor(
     private activatedRoute: ActivatedRoute,
     private workerService: WorkerService,
@@ -82,6 +85,12 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
       );
     }
   }
+
+  code( workerType: number, code):string {
+    const name= this.codeName[workerType]+ code.toString().padStart(4, '0')
+    return name
+  }
+
   QRLoad(url){
     const img = new Image,
       canvas = document.createElement("canvas"),

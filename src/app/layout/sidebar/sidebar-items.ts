@@ -13,7 +13,7 @@ export const ROUTES: RouteInfo[] = [
 
   {
     path: '/workers',
-    title: 'MENUITEMS.MEMBERS.TEXT',
+    title: 'MENUITEMS.REGISTER.TEXT',
     moduleName: 'test',
     icon: 'menu-icon ti-user',
     class: '',

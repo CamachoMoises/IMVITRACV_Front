@@ -47,8 +47,6 @@
                         </div>
                         <div class="col-4">
                           <ul class="header-buttons">
-
-
                             <li>
                               <div class="icon-button-demo">
                                 <button
@@ -86,23 +84,27 @@
                     >
                       <!-- ID Column -->
                       <ng-container matColumnDef="idWorker">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                        <mat-header-cell *matHeaderCellDef
                           >Codigo
                         </mat-header-cell>
-                        <mat-cell *matCellDef="let row">{{ row.code }}</mat-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{ code(row.workerType, row.code) }}
+                      </mat-cell>
                       </ng-container>
 
                       <!-- workerType Column -->
                       <ng-container matColumnDef="workerType">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                        <mat-header-cell *matHeaderCellDef
                           >Tipo
                         </mat-header-cell>
-                        <mat-cell *matCellDef="let row">{{ workerType[row.workerType] }}</mat-cell>
+                        <mat-cell *matCellDef="let row">{{
+                          typeCode(row.workerType, row.organization)
+                        }}</mat-cell>
                       </ng-container>
 
                       <!-- firstName Column -->
                       <ng-container matColumnDef="firstName">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                        <mat-header-cell *matHeaderCellDef
                           >Primer Nombre
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row">
@@ -112,7 +114,7 @@
 
                       <!-- secondName Column -->
                       <ng-container matColumnDef="secondName">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                        <mat-header-cell *matHeaderCellDef
                           >Segundo Nombre
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row">
@@ -122,7 +124,7 @@
 
                       <!-- firstLastname Column -->
                       <ng-container matColumnDef="firstLastname">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                        <mat-header-cell *matHeaderCellDef
                           >Primer Apellido
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row">
@@ -132,7 +134,7 @@
 
                       <!-- secondLastname Column -->
                       <ng-container matColumnDef="secondLastname">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                        <mat-header-cell *matHeaderCellDef
                           >Segundo Apellido
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row">
@@ -142,37 +144,26 @@
 
                       <!-- DNI Column -->
                       <ng-container matColumnDef="DNI">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                        <mat-header-cell *matHeaderCellDef
                           >Cedula
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row">
-                          {{ row.DNI  }}</mat-cell
+                          {{ row.DNI }}</mat-cell
                         >
                       </ng-container>
 
                       <!-- phone Column -->
                       <ng-container matColumnDef="phone">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                        <mat-header-cell *matHeaderCellDef
                           >Telefono
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row">
                           {{ row.phone }}
                         </mat-cell>
                       </ng-container>
-
-                      <!-- membership Column -->
-                      <ng-container matColumnDef="membership">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header
-                          >N° socio
-                        </mat-header-cell>
-                        <mat-cell *matCellDef="let row">
-                          {{ row.membership }}
-                        </mat-cell>
-                      </ng-container>
-
-                       <!-- status Column -->
-                       <ng-container matColumnDef="status">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header
+                      <!-- status Column -->
+                      <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef
                           >Estatus
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row">
@@ -189,13 +180,12 @@
                           *matCellDef="let row; let i = index"
                           class="pr-0"
                         >
-                        <!-- *ngIf="onCheckDeteails('see', 2)" -->
+                          <!-- *ngIf="onCheckDeteails('see', 2)" -->
                           <button
                             mat-icon-button
                             color="accent"
                             class="btn-tbl-confirm"
                             (click)="$event.stopPropagation()"
-
                             (click)="seeProfile(row, i)"
                           >
                             <mat-icon aria-label="Delete" class="col-white"
@@ -263,7 +253,7 @@
                       #paginator
                       [length]="dataLength"
                       [pageIndex]="0"
-                      [pageSize]="5"
+                      [pageSize]="30"
                       [pageSizeOptions]="[5, 10, 30, 100]"
                     >
                     </mat-paginator>

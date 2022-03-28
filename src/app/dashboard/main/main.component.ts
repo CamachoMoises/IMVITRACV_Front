@@ -12,6 +12,8 @@ export class MainComponent extends UnsubscribeOnDestroyAdapter implements OnInit
   cabbie=0;
   collector=0;
   driver=0;
+  moto=0;
+  admn=0;
   constructor(
     private workerService: WorkerService
   ) {
@@ -25,6 +27,8 @@ export class MainComponent extends UnsubscribeOnDestroyAdapter implements OnInit
       this.cabbie= data.cabbie;
       this.collector= data.collector;
       this.driver = data.driver;
+      this.moto= data.moto;
+      this.admn= data.admn;
 
     })
 

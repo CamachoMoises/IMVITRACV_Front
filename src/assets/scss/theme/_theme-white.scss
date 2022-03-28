@@ -21,7 +21,7 @@
     }
   }
   .navbar {
-    background-color: $theme-white !important;
+    background-color: #bdd0df !important;
     -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
@@ -87,6 +87,7 @@
 
   .sidebar {
     .menu {
+      background-color: #bdd0df;
       .list {
         li {
           &.active {
@@ -235,7 +236,7 @@
 /*Logo Header Background Color*/
 .logo-white {
   .navbar-header {
-    background-color: $theme-white;
+    background-color: #bdd0df;
 
     .logo-name {
       color: #000;

@@ -25,7 +25,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./workers-table.component.sass']
 })
 export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implements OnInit, AfterViewInit {
-  filterSearch='Unfiltered'
+  filterSearch = 'Unfiltered'
   filterToggle = false;
   displayedColumns = [
     'idWorker',
@@ -36,18 +36,18 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
     'secondLastname',
     'DNI',
     'phone',
-    'membership',
     'status',
     'actions'
   ];
-  status=['inactivo','Activo'];
-  workerType=['Taxista','Colector','Chofer','Moto-Taxista'];
+  status = ['inactivo', 'Activo'];
+  codeName = ['TAX-', 'COL-', 'OPE-', 'MOT-', 'IMV-TH-'];
+  workerType = ['Operador de taxi', 'Colector', 'Operador de transporte', 'Operador de Moto taxi','Administrativo'];
   WorkerDatabase: WorkerService | null;
   dataSource: WorkerDataSource | null;
   selection = new SelectionModel<Worker>(true, []);
   contr: Worker | null
   id: number;
-  dataLength:number=0;
+  dataLength: number = 0;
   userLogged
   constructor(
     private workerService: WorkerService,
@@ -69,14 +69,14 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
 
   ngOnInit(): void {
     this.loadData();
-    this.WorkerDatabase.Length$.subscribe((data:any) => {
-      this.dataLength= data.dataLength
+    this.WorkerDatabase.Length$.subscribe((data: any) => {
+      this.dataLength = data.dataLength
     })
   }
 
   ngAfterViewInit() {
     merge(this.paginator.page, this.sort.sortChange).pipe().subscribe(() => {
-      console.log('From merge Paginator and sort');
+      // console.log('From merge Paginator and sort');
 
       this.loadData();
     })
@@ -94,17 +94,27 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
       distinctUntilChanged()
     ).subscribe((text: string) => {
       this.paginator.pageIndex = 0
-      console.log('From keyup filter:', text);
-      if(text){
-        this.filterSearch= text;
-      }else{
-        this.filterSearch ='Unfiltered';
+      // console.log('From keyup filter:', text);
+      if (text) {
+        this.filterSearch = text;
+      } else {
+        this.filterSearch = 'Unfiltered';
       }
       this.loadData()
     })
-
-
   }
+
+  code( workerType: number, code):string {
+    const name= this.codeName[workerType]+ code.toString().padStart(4, '0')
+    return name
+  }
+  typeCode(workerType: number, organization):string {
+    if(workerType<=3){
+      return this.workerType[workerType]
+    }
+    return organization
+  }
+
   addNew() {
     let tempDirection;
     const dialogRef = this.dialog.open(FormComponent, {
@@ -134,7 +144,7 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
         this.refresh();
       }, 1000);
     });
-   }
+  }
   editCall(row) {
     this.id = row.id;
     const dialogRef = this.dialog.open(FormComponent, {
@@ -196,7 +206,7 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
       }
     });
 
-   }
+  }
 
   refresh() {
     this.loadData();
@@ -252,16 +262,16 @@ export class WorkerDataSource extends DataSource<Worker> {
     public workerDatabase: WorkerService,
     public paginator: MatPaginator,
     public _sort: MatSort,
-    public filterSearch:string
+    public filterSearch: string
   ) {
     super();
-    if(!this.paginator.pageSize){
-      this.paginator.pageSize =5
+    if (!this.paginator.pageSize) {
+      this.paginator.pageSize = 5
     }
     // this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   connect(): Observable<Worker[]> {
-    console.log('At the star of connect', this.filterSearch);
+    // console.log('At the star of connect', this.filterSearch);
 
     this.workerDatabase.getWorkers(this.paginator.pageIndex, this.paginator.pageSize, this.filterSearch)
 
@@ -277,7 +287,7 @@ export class WorkerDataSource extends DataSource<Worker> {
       map(() => {
         // Filter data
         this.filteredData = this.workerDatabase.data
-        .slice()
+          .slice()
         // .filter((worker: Worker) => {
         //   const searchStr = (
         //       worker.idWorker,
@@ -297,9 +307,9 @@ export class WorkerDataSource extends DataSource<Worker> {
         //       ).toLowerCase();
         //       return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         //     })
-            // Sort filtered data
-            const sortedData = this.sortData(this.filteredData.slice());
-            this.renderedData = sortedData.splice( 0,this.paginator.pageSize
+        // Sort filtered data
+        const sortedData = this.sortData(this.filteredData.slice());
+        this.renderedData = sortedData.splice(0, this.paginator.pageSize
         );
         return this.renderedData;
       })

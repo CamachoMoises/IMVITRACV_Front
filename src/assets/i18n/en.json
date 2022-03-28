@@ -18,11 +18,17 @@
       "TEXT": "-- Main"
     },
     "HOME": {
-      "TEXT": "Home",
+      "TEXT": "Casa",
       "LIST": {
         "DASHBOARD1": "Dashboard 1",
         "DASHBOARD2": "Dashboard 2",
         "DASHBOARD3": "Dashboard 3"
+      }
+    },
+    "REGISTER":{
+      "TEXT":"Registro",
+      "LIST":{
+        "CONTRACT":"Mienbros"
       }
     },
     "CONTRACTS":{

@@ -13,11 +13,11 @@ import { Worker } from '../models/worker';
 })
 export class WorkerService extends UnsubscribeOnDestroyAdapter {
 
-  private readonly API_URL = 'https://imvitracv.herokuapp.com/worker';
-  private readonly API_URL_ = 'https://imvitracv.herokuapp.com';
-2
-  private readonly API_URL2 = 'http://localhost:3001/worker';
-  private readonly API_URL_2 = 'http://localhost:3001';
+  private readonly API_URL2 = 'https://imvitracv.herokuapp.com/worker';
+  private readonly API_URL_2 = 'https://imvitracv.herokuapp.com';
+
+  private readonly API_URL = 'http://localhost:3001/worker';
+  private readonly API_URL_ = 'http://localhost:3001';
 
 
   dataChange: BehaviorSubject<Worker[]> = new BehaviorSubject<Worker[]>([]);
@@ -50,12 +50,12 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
 
   getWorkers(page: number, size: number, filter:string) {
 
-    console.log('service filter: ', filter);
+    // console.log('service filter: ', filter);
     // if (this.verified_user('see')) {
     this.subs.sink = this.httpClient.get<any>(this.API_URL + `/list/${page}/${size}/${filter}`).subscribe(
       (data) => {
         this.isTblLoading = false;
-        console.log('dataLength',data.dataLength);
+        // console.log('dataLength',data.dataLength);
 
         this.dataLength.next(data.dataLength);
         this.dataChange.next(data.workers);
@@ -151,6 +151,8 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
   Dashboard() {
     this.subs.sink = this.httpClient.get<any>(this.API_URL + '/dashboard').subscribe((data) => {
       this.isTblLoading = false;
+      console.log(data);
+
       this.dataDashboard.next(data)
     },
       (error: HttpErrorResponse) => {
