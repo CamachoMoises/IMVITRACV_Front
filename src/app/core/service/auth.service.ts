@@ -11,6 +11,9 @@ import { environment } from 'src/environments/environment';
 export class AuthService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+  private readonly conetion1=`https://imvitracv.herokuapp.com/api/login`;
+  private readonly conetionLocal=`http://localhost:3001/api/login`;
+  private readonly conection2=`https://imvitracv-back.onrender.com/api/login`;
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<User>(
@@ -25,9 +28,7 @@ export class AuthService {
 
   login(username: string, password: string) {
     return this.http
-      .post<any>(`
-      https://imvitracv.herokuapp.com/api/login
-      `, {
+      .post<any>(this.conection2, {
         //${environment.apiUrl}/authenticate
         username,
         password

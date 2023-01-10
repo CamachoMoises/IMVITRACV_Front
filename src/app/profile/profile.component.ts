@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UnsubscribeOnDestroyAdapter } from '../shared/UnsubscribeOnDestroyAdapter';
-
 import { WorkerService } from '../core/service/worker.service';
 import { formatDate } from '@angular/common';
 import { LanguageService } from 'src/app/core/service/language.service';
@@ -55,6 +54,10 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
     public languageService: LanguageService,
   ) {
     super()
+    window.addEventListener('load', () =>{
+      console.log('the window is fully loaded');
+
+    })
   }
   ngOnInit(): void {
     this.userLogged= JSON.parse(localStorage.getItem('currentUser'));
@@ -68,7 +71,7 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
       console.log('Worker data', this.workerData);
 
       this.workerData.dateInit = formatDate(this.workerData.dateInit, 'dd/MM/yyyy', 'en');
-      this.workerData.dateEnd = formatDate(this.workerData.dateEnd, 'dd/MM/yyyy', 'en');
+      // this.workerData.dateEnd = formatDate(this.workerData.dateEnd, 'dd/MM/yyyy', 'en');
       this.convertImgToBase64URL(this.workerData.linkPhoto);
     })
 
@@ -92,19 +95,19 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
   }
 
   QRLoad(url){
-    const img = new Image,
-      canvas = document.createElement("canvas"),
-      ctx = canvas.getContext("2d"),
-      src = url;
-      img.crossOrigin = 'Anonymous';
-      img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        const image = canvas.toDataURL("image/png");
-        this.QRBase64= image
-      }
-      img.src = src;
+    // const img = new Image,
+    //   canvas = document.createElement("canvas"),
+    //   ctx = canvas.getContext("2d"),
+    //   src = url;
+    //   img.crossOrigin = 'Anonymous';
+    //   img.onload = () => {
+    //     canvas.width = img.width;
+    //     canvas.height = img.height;
+    //     ctx.drawImage(img, 0, 0);
+    //     const image = canvas.toDataURL("image/png");
+    //     this.QRBase64= image
+    //   }
+    //   img.src = src;
   };
 
 
