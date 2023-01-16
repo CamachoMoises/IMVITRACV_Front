@@ -10,14 +10,10 @@
 </nav> -->
 
 <mat-toolbar>
-    <button
-      mat-button
-      routerLink="/workers"
-    >
-      <img src="assets/images/logo.png" alt="" />
-      <span class="logo-name">IMVITRACV</span>
-    </button>
-
+  <button mat-button routerLink="/workers">
+    <img src="assets/images/logo.png" alt="" />
+    <span class="logo-name">IMVITRACV</span>
+  </button>
 </mat-toolbar>
 
 <div class="littlelower">
@@ -26,7 +22,9 @@
     <div class="card">
       <div class="m-b-20">
         <div class="contact-grid">
-          <div [ngClass]="'profile-header bg-'+colorTag[workerData.workerType]">
+          <div
+            [ngClass]="'profile-header bg-' + colorTag[workerData.workerType]"
+          >
             <div class="user-name">
               {{ workerData.firstName }} {{ workerData.firstLastname }}
             </div>
@@ -68,11 +66,10 @@
       </div>
     </div>
     <div class="info">
-
       <div class="profile">
         <div class="card">
           <mat-tab-group>
-            <mat-tab class="members" *ngIf="+workerData.workerType<=3">
+            <mat-tab class="members" *ngIf="+workerData.workerType <= 3">
               <ng-template mat-tab-label>
                 <mat-icon class="example-tab-icon msr-2">face</mat-icon>
                 Infomacion
@@ -198,7 +195,7 @@
                 </div>
               </div>
             </mat-tab>
-            <mat-tab class="Admins" *ngIf="+workerData.workerType>3">
+            <mat-tab class="Admins" *ngIf="+workerData.workerType > 3">
               <ng-template mat-tab-label>
                 <mat-icon class="example-tab-icon msr-2">face</mat-icon>
                 Infomacion
@@ -259,7 +256,6 @@
                         </p>
                       </div>
 
-
                       <div class="col-md-3 col-6 b-r">
                         <strong> Cargo </strong>
                         <br />
@@ -292,8 +288,7 @@
               </div>
             </mat-tab>
 
-
-            <mat-tab  class="QrImage" >
+            <mat-tab class="QrImage">
               <ng-template mat-tab-label>
                 <mat-icon class="example-tab-icon msr-2"
                   >settings_overscan</mat-icon
@@ -305,18 +300,10 @@
                 <div class="project_widget">
                   <div class="header" *ngIf="id > 0">
                     <img
-                      [src]="
-                        'https://chart.googleapis.com/chart?chs=350x350&amp;cht=qr&amp;' +
-                        QRLink
-                      "
+                      [src]="QrImage"
+                      width="300"
+                      height="300"
                       id="QRLink"
-                      (load)="
-                        QRLoad(
-                          corsProxy +
-                            'https://chart.googleapis.com/chart?chs=350x350&amp;cht=qr&amp;' +
-                            QRLink
-                        )
-                      "
                     />
                   </div>
                 </div>
@@ -336,13 +323,13 @@
         </div>
       </div>
 
-      <div class="carnet">
+      <div class="carnet" *ngIf="+workerData.workerType <= 3">
         <div class="card" id="card" #card *ngIf="userLogged">
           <div [ngClass]="'worker' + workerData.workerType">
             <div class="row">
               <div class="col-12">
                 <p id="code">
-                  {{ code(workerData.workerType ,workerData.code) }}
+                  {{ code(workerData.workerType, workerData.code) }}
                 </p>
               </div>
 
@@ -369,13 +356,15 @@
                   {{ workerData.dateEnd }}
                 </p>
               </div>
-<!--
+              <!--
               <div class="col-5">
                 <img [src]="QRBase64" id="qrcode" />
               </div> -->
               <div class="col-5">
-                <img [src]="'https://chart.googleapis.com/chart?chs=350x350&amp;cht=qr&amp;' +
-                QRLink" id="qrcode" />
+                <img
+                  [src]="QrImage"
+                  id="qrcode"
+                />
               </div>
             </div>
             <ng-template #noPic2>
@@ -393,8 +382,14 @@
     </div>
   </div>
   <ng-template #loading>
-    <ngx-spinner bdColor="rgb(63,69,95)" size="medium" color="#0af0d5" type="ball-scale-pulse" [fullScreen]="true">
-      <p style="color: rgb(138, 18, 18)"> </p>
+    <ngx-spinner
+      bdColor="rgb(63,69,95)"
+      size="medium"
+      color="#0af0d5"
+      type="ball-scale-pulse"
+      [fullScreen]="true"
+    >
+      <p style="color: rgb(138, 18, 18)"></p>
     </ngx-spinner>
   </ng-template>
 </div>

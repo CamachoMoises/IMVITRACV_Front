@@ -112,7 +112,7 @@ export class WorkersTableComponent extends UnsubscribeOnDestroyAdapter implement
     if(workerType<=3){
       return this.workerType[workerType]
     }
-    return organization
+    return organization? organization: 'N/A'
   }
 
   addNew() {

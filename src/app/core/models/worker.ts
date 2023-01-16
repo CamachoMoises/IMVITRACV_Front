@@ -23,4 +23,5 @@ export class Worker {
   linkQR?:string;
   dateInit?:Date;
   dateEnd?:Date;
+  qrCode:any;
 }

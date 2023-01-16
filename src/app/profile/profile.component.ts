@@ -13,6 +13,7 @@ import { WorkerService } from '../core/service/worker.service';
 import { formatDate } from '@angular/common';
 import { LanguageService } from 'src/app/core/service/language.service';
 import { DOCUMENT } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 import html2canvas from 'html2canvas'
 
 @Component({
@@ -22,10 +23,12 @@ import html2canvas from 'html2canvas'
 })
 export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy, AfterViewInit {
   id: number = 0;
-  googleSheet: string ="https://chart.googleapis.com/chart?chs=350x350&amp;cht=qr&amp;"
+  QrImage;
   userLogged
-  corsProxy= 'https://cors-anywhere.herokuapp.com/'
-  QRLink
+  // googleSheet: string ="https://chart.googleapis.com/chart?chs=350x350&amp;cht=qr&amp;"
+  // corsProxy= 'https://cors-anywhere.herokuapp.com/'
+  // QRLink
+  // QRBase64 = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
   profileData
   workerData;
   public config: any = {};
@@ -34,7 +37,6 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
   flagvalue;
   countryName;
   photoBase64 = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-  QRBase64 = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
   langStoreValue: string;
   defaultFlag: string;
   isOpenSidebar: boolean;
@@ -52,6 +54,7 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
     private renderer: Renderer2,
     public elementRef: ElementRef,
     public languageService: LanguageService,
+    private sanitizer: DomSanitizer,
   ) {
     super()
     window.addEventListener('load', () =>{
@@ -60,15 +63,17 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
     })
   }
   ngOnInit(): void {
+    // this.QRLink = `chl=https://imvitracv-6aa26.firebaseapp.com/profile/${this.id}&amp;choe=UTF-8`
     this.userLogged= JSON.parse(localStorage.getItem('currentUser'));
     this.subs.sink = this.activatedRoute.params.subscribe(params => {
       this.id = +params['id'];
-      this.QRLink = `chl=https://imvitracv-6aa26.firebaseapp.com/profile/${this.id}&amp;choe=UTF-8`
       this.workerService.profile(this.id);
     })
     this.profileData = this.workerService.profileData$.subscribe((data) => {
       this.workerData = data
       console.log('Worker data', this.workerData);
+      this.QrImage=this.sanitizer.bypassSecurityTrustResourceUrl(`${this.workerData.qrCode}`);
+      console.log(this.QrImage);
 
       this.workerData.dateInit = formatDate(this.workerData.dateInit, 'dd/MM/yyyy', 'en');
       // this.workerData.dateEnd = formatDate(this.workerData.dateEnd, 'dd/MM/yyyy', 'en');

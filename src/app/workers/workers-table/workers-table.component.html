@@ -95,7 +95,7 @@
                       <!-- workerType Column -->
                       <ng-container matColumnDef="workerType">
                         <mat-header-cell *matHeaderCellDef
-                          >Tipo
+                          >Cargo
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row">{{
                           typeCode(row.workerType, row.organization)
@@ -105,7 +105,7 @@
                       <!-- firstName Column -->
                       <ng-container matColumnDef="firstName">
                         <mat-header-cell *matHeaderCellDef
-                          >Primer Nombre
+                          >Primer <br> Nombre
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row">
                           {{ row.firstName }}
@@ -115,10 +115,10 @@
                       <!-- secondName Column -->
                       <ng-container matColumnDef="secondName">
                         <mat-header-cell *matHeaderCellDef
-                          >Segundo Nombre
+                          >Segundo <br> Nombre
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row">
-                          {{ row.secondName }}
+                          {{ row.secondName ? row.secondName : 'N/A'}}
                         </mat-cell>
                       </ng-container>
 
@@ -128,7 +128,7 @@
                           >Primer Apellido
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row">
-                          {{ row.firstLastname }}
+                          {{ row.firstLastname ? row.firstLastname: 'N/A' }}
                         </mat-cell>
                       </ng-container>
 
@@ -138,7 +138,7 @@
                           >Segundo Apellido
                         </mat-header-cell>
                         <mat-cell *matCellDef="let row">
-                          {{ row.secondLastname }}</mat-cell
+                          {{ row.secondLastname ? row.secondLastname: 'N/A' }}</mat-cell
                         >
                       </ng-container>
 
