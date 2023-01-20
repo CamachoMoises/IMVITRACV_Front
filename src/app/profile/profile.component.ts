@@ -117,7 +117,7 @@ export class ProfileComponent extends UnsubscribeOnDestroyAdapter implements OnI
 
 
   downloadPdf() {
-    let data = document.getElementById("card")
+    let data = document.getElementById("carnet")
 
     html2canvas(data).then((canvas) => {
       const contentData = canvas.toDataURL('image/jpg')

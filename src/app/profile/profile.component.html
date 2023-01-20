@@ -323,7 +323,8 @@
         </div>
       </div>
 
-      <div class="carnet" *ngIf="+workerData.workerType <= 3">
+
+      <div class="carnet" id="carnet" *ngIf="+workerData.workerType <= 3">
         <div class="card" id="card" #card *ngIf="userLogged">
           <div [ngClass]="'worker' + workerData.workerType">
             <div class="row">
