@@ -72,7 +72,7 @@ export class WorkerService extends UnsubscribeOnDestroyAdapter {
     // }
   }
   profile(id: number) {
-    this.subs.sink = this.httpClient.get(this.API_URLOLD + `/profile/${id}`).subscribe((res: Worker) => {
+    this.subs.sink = this.httpClient.get(this.API_URL_ + `/profile/${id}`).subscribe((res: Worker) => {
       this.profileData.next(res)
     }
     )

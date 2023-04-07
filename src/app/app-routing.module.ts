@@ -7,7 +7,6 @@ import { MainLayoutComponent } from './layout/app-layout/main-layout/main-layout
 
 const routes: Routes = [
 
-  { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule) },
   {
     path: '',
     component: MainLayoutComponent,
@@ -19,7 +18,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
-
+      { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule) },
       {
         path: 'workers',
         loadChildren: () =>
@@ -44,7 +43,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy', useHash:false })],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy', useHash: false })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
